@@ -19,7 +19,8 @@ def validate_range(value):
 
 class User(AbstractUser):
     role = models.CharField(choices=ROLES_CHOICES, null=True, max_length=7)
-    coach = models.ForeignKey("self", null=True, on_delete=models.SET_NULL, related_name='trainees', related_query_name='trainee')
+    coach = models.ForeignKey("self", null=True, blank=True, on_delete=models.SET_NULL, related_name='trainees', related_query_name='trainee')
+    avatar = models.ImageField(null=True, blank=True, upload_to="images/avatars/")
 
     def clean(self):
         if self.role == coach:
@@ -29,8 +30,9 @@ class User(AbstractUser):
 
 class Exercise(models.Model):
     name = models.CharField(max_length=255, unique=True)
-    description = models.TextField(max_length=20, null=True)
+    description = models.TextField(max_length=20, null=True, blank=True)
     duration = models.IntegerField(validators=[validate_range])
+    image = models.ImageField(null=True, blank=True, upload_to="images/exercises/")
 
 
 class DailyTraining(models.Model):
