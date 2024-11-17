@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  {% load static %}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Йога Студия</title>
+  <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    .hero-section {
+      background: url({% static 'img/main.jpg' %}) no-repeat center center;
+      background-size: cover;
+      color: white;
+      padding: 80px 0;
+    }
+    .hero-section h1 {
+      font-size: 3rem;
+      font-weight: bold;
+    }
+    .auth-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 80vh;
+    }
+    .auth-card {
+      width: 100%;
+      max-width: 400px;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      background-color: #fff;
+    }
+    .service-card {
+      margin-bottom: 20px;
+    }
+    .service-card img {
+      border-radius: 10px;
+      height: 200px;
+      object-fit: cover;
+    }
+    footer {
+      background-color: #333;
+      color: white;
+      padding: 20px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Навигационная панель -->
+  {% include 'includes/header.html' %}
+
+  <!-- Контент страницы: начало -->
+  {% block content %}
+
+  {% endblock content %}
+  <!-- Контент страницы: конец -->
+
+  <!-- Футер -->
+  {% include 'includes/footer.html' %}
+  <script src="{% static 'js/bootstrap.min.js' %}"></script>
+</body>
+</html>

@@ -1,6 +1,17 @@
 from django.http import HttpResponse
+from django.shortcuts import render
+
+from yoga_app.models import User
 
 
-# Простая вьюшка, которая возвращает приветственное сообщение
-def hello(request):
-    return HttpResponse("Привет, мир!")
+def index(request):
+    users = User.objects.all()
+    context = {
+        "users": [user.username for user in users],
+
+    }
+    return render(request, 'yoga/main.html', context)
+
+
+def signup(request):
+    return render(request, 'yoga/signup.html', {})

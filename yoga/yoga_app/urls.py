@@ -1,6 +1,7 @@
 from django.urls import path
-from yoga_app.views import hello
+from yoga_app.views import index, signup
 
 urlpatterns = [
-    path('test/', hello)
+    path('', index),
+    path('signup/', signup)
 ]

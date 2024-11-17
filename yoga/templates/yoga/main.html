@@ -1,0 +1,49 @@
+  {% extends 'base.html' %}
+  {% block content %}
+      <!-- Главный экран -->
+      {% include 'includes/welcome.html' %}
+      <!-- О студии -->
+      {% include 'includes/about.html' %}
+
+      <!-- Классы -->
+      <section id="classes" class="py-5">
+        <div class="container">
+          <h2 class="text-center mb-4">Наши классы</h2>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="card service-card">
+                <img src="https://via.placeholder.com/350x200" class="card-img-top" alt="Йога для начинающих">
+                <div class="card-body">
+                  <h5 class="card-title">Йога для начинающих</h5>
+                  <p class="card-text">Занятия для тех, кто только начинает путь в йогу.</p>
+                  <a href="#" class="btn btn-primary">Записаться</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card service-card">
+                <img src="https://via.placeholder.com/350x200" class="card-img-top" alt="Йога для продвинутых">
+                <div class="card-body">
+                  <h5 class="card-title">Йога для продвинутых</h5>
+                  <p class="card-text">Интенсивные занятия для опытных практиков.</p>
+                  <a href="#" class="btn btn-primary">Записаться</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card service-card">
+                <img src="https://via.placeholder.com/350x200" class="card-img-top" alt="Йога для беременных">
+                <div class="card-body">
+                  <h5 class="card-title">Йога для беременных</h5>
+                  <p class="card-text">Специальные занятия для будущих мам.</p>
+                  <a href="#" class="btn btn-primary">Записаться</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Контакты -->
+      {% include 'includes/contact_form.html' %}
+  {% endblock content %}

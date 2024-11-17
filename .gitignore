@@ -163,3 +163,4 @@ cython_debug/
 
 # Django crap
 yoga/media/
+.DS_Store
