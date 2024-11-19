@@ -1,9 +1,10 @@
-from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
 from yoga_app.models import User
 
 
+@login_required
 def index(request):
     users = User.objects.all()
     context = {

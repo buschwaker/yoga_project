@@ -1,4 +1,4 @@
-# from django.contrib.auth import views
+from django.contrib.auth import views
 from django.urls import path
 
 from yoga_users.views import CreateUser
@@ -6,12 +6,9 @@ from yoga_users.views import CreateUser
 app_name = 'users'
 
 urlpatterns = [
-    path('registration/', CreateUser.as_view(), name='signup')
-    # Авторизация
-    # path('login/', views.LoginView.as_view(), name='login'),
-
-    # # Выход
-    # path('logout/', views.LogoutView.as_view(), name='logout'),
+    path('registration/', CreateUser.as_view(), name='signup'),
+    path('login/', views.LoginView.as_view(template_name='registration/login.html'), name='login'),
+    path('logout/', views.LogoutView.as_view(template_name='registration/signup.html'), name='logout'),
     #
     # # Смена пароля
     # path('password_change/', views.PasswordChangeView.as_view(), name='password_change'),

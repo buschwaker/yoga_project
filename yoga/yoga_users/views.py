@@ -6,5 +6,5 @@ from yoga_users.forms import CreationForm
 
 class CreateUser(CreateView):
     form_class = CreationForm
-    template_name = 'yoga/signup.html'
+    template_name = 'registration/signup.html'
     success_url = '/thankyou/'
