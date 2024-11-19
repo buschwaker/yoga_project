@@ -1,31 +1,15 @@
+from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.contrib.auth.models import AbstractUser
 
+from yoga_users.constants import COACH
 
-coach = 'coach'
-trainee = 'trainee'
-
-ROLES_CHOICES = [
-    (coach, 'Coach'),
-    (trainee, 'Trainee'),
-]
+User = get_user_model()
 
 
 def validate_range(value):
     if value < 1 or value > 10:
         raise ValidationError(f'{value} is out of range. Exercise duration must be between 1 and 10.')
-
-
-class User(AbstractUser):
-    role = models.CharField(choices=ROLES_CHOICES, null=True, max_length=7)
-    coach = models.ForeignKey("self", null=True, blank=True, on_delete=models.SET_NULL, related_name='trainees', related_query_name='trainee')
-    avatar = models.ImageField(null=True, blank=True, upload_to="images/avatars/")
-
-    def clean(self):
-        if self.role == coach:
-            if self.coach:
-                raise ValidationError("Coach can't have a coach!")
 
 
 class Exercise(models.Model):
@@ -41,5 +25,5 @@ class DailyTraining(models.Model):
     trainee = models.ForeignKey(User, null=False, on_delete=models.CASCADE, related_name='trainings', related_query_name='training')
 
     def clean(self):
-        if self.trainee.role == coach:
+        if self.trainee.role == COACH:
             raise ValidationError("Coach can't do daily training!")

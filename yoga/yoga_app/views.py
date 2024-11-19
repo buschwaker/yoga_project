@@ -11,7 +11,3 @@ def index(request):
 
     }
     return render(request, 'yoga/main.html', context)
-
-
-def signup(request):
-    return render(request, 'yoga/signup.html', {})

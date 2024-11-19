@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'yoga_app.apps.YogaAppConfig',
+    'yoga_users.apps.YogaUsersConfig'
 ]
 
 MIDDLEWARE = [
@@ -77,11 +78,11 @@ WSGI_APPLICATION = 'yoga.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
+        'NAME': 'yoga_pg',
+        'USER': 'darya',
+        'PASSWORD': 'darya',
         'HOST': 'localhost',
-        'PORT': 5433,
+        'PORT': 5432,
         'OPTIONS': {
             'options': '-c timezone=utc',
         },
@@ -111,7 +112,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru'
 
 TIME_ZONE = 'UTC'
 
@@ -131,4 +132,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
-AUTH_USER_MODEL = 'yoga_app.User'
+AUTH_USER_MODEL = 'yoga_users.User'

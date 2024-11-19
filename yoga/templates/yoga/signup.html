@@ -1,69 +1,56 @@
+
   {% extends 'base.html' %}
   {% block content %}
   <!-- Главный экран -->
   {% include 'includes/welcome.html' %}
-
-    <!-- Страница Логина и Регистрации -->
-    <section class="auth-container">
-    <div class="auth-card">
-      <div class="tabs mb-4">
-        <ul class="nav nav-tabs" id="authTabs" role="tablist">
-          <li class="nav-item" role="presentation">
-            <a class="nav-link active" id="login-tab" data-bs-toggle="tab" href="#login" role="tab" aria-controls="login" aria-selected="true">Логин</a>
-          </li>
-          <li class="nav-item" role="presentation">
-            <a class="nav-link" id="register-tab" data-bs-toggle="tab" href="#register" role="tab" aria-controls="register" aria-selected="false">Регистрация</a>
-          </li>
-        </ul>
-      </div>
-
-      <div class="tab-content" id="authTabsContent">
-        <!-- Логин -->
-        <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
-          <h4 class="mb-3 text-center">Вход в систему</h4>
-          <form>
-            <div class="mb-3">
-              <label for="login-email" class="form-label">Email</label>
-              <input type="email" class="form-control" id="login-email" placeholder="Введите ваш email" required>
-            </div>
-            <div class="mb-3">
-              <label for="login-password" class="form-label">Пароль</label>
-              <input type="password" class="form-control" id="login-password" placeholder="Введите ваш пароль" required>
-            </div>
-            <button type="submit" class="btn btn-primary w-100">Войти</button>
-          </form>
-          <div class="text-center mt-3">
-            <p>Нет аккаунта? <a href="#register" data-bs-toggle="tab" class="text-primary">Зарегистрируйтесь</a></p>
-          </div>
+<div class="row justify-content-center">
+    <div class="col-md-8 p-5">
+      <div class="card">
+        <div class="card-header">
+          Зарегистрироваться
         </div>
+        <div class="card-body">
+          {# Этот блок будет показан, если в форме есть ошибки #}
+          {% if form.errors %}
+            {% for field in form %}
+              {% for error in field.errors %}
+                <div class="alert alert-danger">
+                  {{ error|escape }}
+                </div>
+              {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+              <div class="alert alert-danger">
+                {{ error|escape }}
+              </div>
+            {% endfor %}
+          {% endif %}
 
-        <!-- Регистрация -->
-        <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab">
-          <h4 class="mb-3 text-center">Регистрация</h4>
-          <form>
-            <div class="mb-3">
-              <label for="register-name" class="form-label">Имя</label>
-              <input type="text" class="form-control" id="register-name" placeholder="Введите ваше имя" required>
-            </div>
-            <div class="mb-3">
-              <label for="register-email" class="form-label">Email</label>
-              <input type="email" class="form-control" id="register-email" placeholder="Введите ваш email" required>
-            </div>
-            <div class="mb-3">
-              <label for="register-password" class="form-label">Пароль</label>
-              <input type="password" class="form-control" id="register-password" placeholder="Введите ваш пароль" required>
-            </div>
-            <div class="mb-3">
-              <label for="register-confirm-password" class="form-label">Подтверждение пароля</label>
-              <input type="password" class="form-control" id="register-confirm-password" placeholder="Подтвердите ваш пароль" required>
-            </div>
+            <form method="post" action="{% url 'users:signup' %}">
+              {% csrf_token %}
+              {% for field in form %}
+              <div class="form-group row my-3 p-3">
+                <label for="{{ field.id_for_label }}">
+                  {{ field.label }}
+                  {% if field.field.required %}
+                    <span class="required text-danger">*</span>
+                  {% endif %}
+                </label>
+                {{ field }}
+                {% if field.help_text %}
+                  <small id="{{ field.id_for_label }}-help" class="form-text text-muted">
+                    {{ field.help_text|safe }}
+                  </small>
+                {% endif %}
+              </div>
+              {% endfor %}
+              <div class="col-md-6 offset-md-4">
             <button type="submit" class="btn btn-primary w-100">Зарегистрироваться</button>
-          </form>
-          <div class="text-center mt-3">
-            <p>Есть аккаунт? <a href="#login" data-bs-toggle="tab" class="text-primary">Войдите</a></p>
           </div>
-        </div>
-      </div>
-    </div>
-    </section>
+            </form>
+          </div> <!-- card body -->
+        </div> <!-- card -->
+      </div> <!-- col -->
+  </div> <!-- row -->
+            </form>
 {% endblock %}
