@@ -163,4 +163,5 @@ cython_debug/
 
 # Django crap
 yoga/media/
+# Mac sys dir
 .DS_Store
