@@ -5,4 +5,4 @@ admin.site.register(models.Exercise)
 
 admin.site.register(models.User)
 
-admin.site.register(models.DailyTraining)
+admin.site.register(models.Training)

@@ -1,10 +1,10 @@
-from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.db import models
 
-from yoga_users.constants import COACH
+from yoga_app.constants import TRAININGS_TYPE, BASE
 
-User = get_user_model()
+from yoga_users.constants import COACH
+from yoga_users.models import User
 
 
 def validate_range(value):
@@ -19,11 +19,14 @@ class Exercise(models.Model):
     image = models.ImageField(null=True, blank=True, upload_to="images/exercises/")
 
 
-class DailyTraining(models.Model):
-    day = models.DateField()
+class Training(models.Model):
     exercises = models.ManyToManyField(Exercise, related_name='trainings', related_query_name='training')
-    trainee = models.ForeignKey(User, null=False, on_delete=models.CASCADE, related_name='trainings', related_query_name='training')
+    trainee = models.ForeignKey(User, null=True, on_delete=models.CASCADE, related_name='trainings', related_query_name='training')
+    type = models.CharField(choices=TRAININGS_TYPE, null=True, max_length=8, default=BASE)
+    name = models.CharField(max_length=255, unique=True)
+    description = models.TextField(max_length=20, null=True, blank=True)
+    image = models.ImageField(null=True, blank=True, upload_to="images/trainings/")
 
     def clean(self):
         if self.trainee.role == COACH:
-            raise ValidationError("Coach can't do daily training!")
+            raise ValidationError("Coach can't do training!")
