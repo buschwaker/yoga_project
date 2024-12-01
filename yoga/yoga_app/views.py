@@ -1,9 +1,10 @@
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
 from django.shortcuts import render
 
-from yoga_app.models import User
+from yoga_app.constants import BASE
 from yoga_users.constants import TRAINEE
+from yoga_app.models import Training
 
 
 def role_required(role):
@@ -18,14 +19,9 @@ def role_required(role):
 
 
 def index(request):
+    base_trainings = Training.objects.filter(type=BASE)
     if not request.user.is_authenticated:
-        # base_trainings = Training.objects.filter(type='BASE')
-        return render(request, 'yoga/main.html')
-    # users = User.objects.all()
-    # context = {
-    #     "users": [user.username for user in users],
-    #
-    # }
+        return render(request, 'yoga/main.html', context={"base_trainings": base_trainings})
 
 
 @role_required(TRAINEE)
