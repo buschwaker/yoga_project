@@ -14,9 +14,19 @@
       <li class="nav-item">
         <a class="nav-link" href="#contact">Вход</a>
       </li>
-      {% else %}
+      {% elif TRAINEE %}
       <li class="nav-item">
-        <a class="nav-link" href="#contact">Вход</a>
+        <a class="nav-link" href="#contact">Личный кабинет</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#contact">Выход</a>
+      </li>
+      {% elif COACH %}
+      <li class="nav-item">
+        <a class="nav-link" href="#contact">Запросы</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#contact">Выход</a>
       </li>
       {% endif %}
     </ul>

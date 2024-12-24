@@ -1,0 +1,17 @@
+<h2 class="text-center mb-4">Наши базовые тренировки</h2>
+<div class="row">
+    {% for base_training in base_trainings %}
+    <div class="col-md-4">
+      <div class="card service-card">
+        <img src="{{ base_training.image.url }}" class="card-img-top" alt="{{ base_training.name }}">
+        <div class="card-body">
+          <h5 class="card-title">{{ base_training.name }}</h5>
+          <p class="card-text">{{ base_training.description }}</p>
+          {% if request.user.is_authenticated %}
+            <a href="#" class="btn btn-primary">Пройти тренировку</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+</div>

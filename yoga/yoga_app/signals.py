@@ -2,11 +2,14 @@ import os
 import shutil
 
 from django.conf import settings
-from django.db.models.signals import post_migrate
+from django.db import transaction
+from django.db.models.signals import post_migrate, post_save
 from django.dispatch import receiver
 
-from yoga_app.constants import BASE
-from yoga_app.models import Training
+from yoga_app.constants import BASE, PERSONAL
+from yoga_app.models import Training, CoachingRequest
+
+from yoga_users.constants import TRAINEE
 
 
 def attach_photo(training, image_path):

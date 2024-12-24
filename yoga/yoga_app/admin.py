@@ -6,3 +6,7 @@ admin.site.register(models.Exercise)
 admin.site.register(models.User)
 
 admin.site.register(models.Training)
+
+admin.site.register(models.TrainingRequest)
+
+admin.site.register(models.CoachingRequest)

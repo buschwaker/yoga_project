@@ -1,0 +1,17 @@
+{% if personal_trainings %}
+  <h2 class="text-center mb-4">Ваши личные тренировки</h2>
+{% elif not personal_trainings %}
+  <h2 class="text-center mb-4">У вас нет персональных тренировок</h2>
+{% endif %}
+{% for personal_training in personal_trainings %}
+<div class="col-md-4">
+  <div class="card service-card">
+    <img src="{{ personal_training.image.url }}" class="card-img-top" alt="{{ personal_training.name }}">
+    <div class="card-body">
+      <h5 class="card-title">{{ personal_training.name }}</h5>
+      <p class="card-text">{{ personal_training.description }}</p>
+      <a href="#" class="btn btn-primary">Пройти тренировку</a>
+    </div>
+  </div>
+</div>
+{% endfor %}
