@@ -10,7 +10,7 @@
     <div class="card-body">
       <h5 class="card-title">{{ personal_training.name }}</h5>
       <p class="card-text">{{ personal_training.description }}</p>
-      <a href="#" class="btn btn-primary">Пройти тренировку</a>
+      <a href="{% url 'yoga:show_workout' training_id=personal_training.id %}" class="btn btn-primary">Пройти тренировку</a>
     </div>
   </div>
 </div>

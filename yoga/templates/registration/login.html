@@ -1,19 +1,31 @@
 {% extends 'base.html' %}
 {% block content %}
 {% include 'includes/welcome.html' %}
-<form action="{% url 'users:login' %}" method="post">
-    {% csrf_token %}
-    <div class="mb-3">
-        <label for="{{ form.username.id_for_label }}" class="form-label">Имя Пользователя</label>
-        <input type="text" name="{{ form.username.html_name }}" class="form-control" id="{{ form.username.id_for_label }}" placeholder="Введите ваше имя" required>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form action="{% url 'yoga_users:login' %}" method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="{{ form.username.id_for_label }}" class="form-label custom-label">Имя Пользователя</label>
+                    <input type="text" name="{{ form.username.html_name }}" class="form-control custom-input mx-auto" id="{{ form.username.id_for_label }}" placeholder="Введите имя пользователя" required>
+                </div>
+                <div class="mb-3">
+                    <label for="{{ form.password.id_for_label }}" class="form-label custom-label">Пароль</label>
+                    <input type="password" name="{{ form.password.html_name }}" class="form-control custom-input mx-auto" id="{{ form.password.id_for_label }}" placeholder="Введите пароль" required>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary custom-button mx-auto d-block">Войти</button>
+                </div>
+            </form>
+            <div class="text-center mt-3">
+                <p>Нет аккаунта? <a href="{% url 'yoga_users:signup' %}" data-bs-toggle="tab" class="text-primary">Зарегистрируйтесь</a></p>
+            </div>
+
+        </div>
     </div>
-    <div class="mb-3">
-        <label for="{{ form.password.id_for_label }}" class="form-label">Пароль</label>
-        <input type="text" name="{{ form.password.html_name }}" class="form-control" id="{{ form.password.id_for_label }}" placeholder="Введите пароль" required>
-    </div>
-    <button type="submit" class="btn btn-primary w-100">Войти</button>
-</form>
-<div class="text-center mt-3">
-    <p>Нет аккаунта? <a href="#register" data-bs-toggle="tab" class="text-primary">Зарегистрируйтесь</a></p>
 </div>
+
 {% endblock %}
+

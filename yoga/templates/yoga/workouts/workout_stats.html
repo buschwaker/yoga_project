@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title">Статистика тренировки</h2>
+            <p><b>Название тренировки:</b> {{ training_name }}</p>
+            <p><b>Время начала:</b> {{ start_time }}</p>
+            <p><b>Время окончания:</b> {{ end_time }}</p>
+            <p><b>Продолжительность:</b> {{ duration_minutes }} минут {{remaining_seconds}} секунд</p>
+            <p><b>Количество упражнений:</b> {{ exercise_count }}</p>
+            <p class="mt-3"><b>Вы молодец!</b></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

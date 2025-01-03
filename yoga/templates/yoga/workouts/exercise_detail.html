@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container mt-5">
+    <div class="card">
+        <img src="{{ exercise.image.url }}" class="card-img-top" alt="{{ exercise.name }}" width="250" height="250">
+        <div class="card-body">
+            <h2 class="card-title">{{ exercise.name }}</h2>
+            <p class="card-text">{{ exercise.description }}</p>
+            <div id="timer">
+                <p>Осталось: <span id="minutes">{{ duration_minutes }}</span>:<span id="seconds">{{ duration_seconds }}</span></p>
+            </div>
+            {% if next_exercise %}
+                <a href="{% url 'yoga:next_exercise' next_exercise.id %}" class="btn btn-primary mt-3">Следующее упражнение</a>
+            {% else %}
+                <p>Это последнее упражнение!</p>
+                <a href="{% url 'yoga:workout_end' %}" class="btn btn-success mt-3">Завершить тренировку</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+    let minutes = parseInt(document.getElementById('minutes').textContent);
+    let seconds = parseInt(document.getElementById('seconds').textContent);
+    const timerDisplay = document.getElementById('timer');
+
+    const timerInterval = setInterval(() => {
+        if (seconds === 0 && minutes === 0) {
+            clearInterval(timerInterval);
+            timerDisplay.innerHTML = "<p>Упражнение завершено!</p>";
+        } else if (seconds === 0) {
+            minutes--;
+            seconds = 59;
+        } else {
+            seconds--;
+        }
+        document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+        document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+    }, 1000);
+</script>
+{% endblock %}

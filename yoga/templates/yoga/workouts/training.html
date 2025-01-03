@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title">{{ training.name }}</h2>
+            <p class="card-text">{{ training.description }}</p>
+            <p>Общая продолжительность: {{ total_duration_minutes }} минут {{ remaining_seconds }} секунд </p>
+            <h3>Упражнения:</h3>
+            <ul>
+                {% for exercise in training.exercises.all %}
+                    <li>
+                        <img src="{{ exercise.image.url }}" alt="{{ exercise.name }}" width="50" height="50">
+                        {{ exercise.name }} ({{ exercise.duration }} сек)
+                    </li>
+                {% endfor %}
+            </ul>
+            <a href="{% url 'yoga:start_workout' training.id %}" class="btn btn-primary">Начать тренировку</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

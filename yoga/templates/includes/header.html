@@ -1,7 +1,9 @@
 {% load static %}
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 <div class="container">
-  <a class="navbar-brand" href="#">Главная</a>
+  <a class="navbar-brand" href="{% url 'yoga:main' %}">Главная</a>
+  <a class="navbar-brand" href="{% url 'yoga:articles' %}">Статьи</a>
+
   <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -9,27 +11,49 @@
     <ul class="navbar-nav ms-auto">
       {% if not request.user.is_authenticated %}
       <li class="nav-item">
-        <a class="nav-link" href="#contact">Регистрация</a>
+        <a class="nav-link" href="{% url 'yoga_users:signup' %}">Регистрация</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#contact">Вход</a>
+        <a class="nav-link" href="{% url 'yoga_users:login' %}">Вход</a>
       </li>
-      {% elif TRAINEE %}
+      {% elif coach %}
       <li class="nav-item">
-        <a class="nav-link" href="#contact">Личный кабинет</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#contact">Выход</a>
-      </li>
-      {% elif COACH %}
-      <li class="nav-item">
-        <a class="nav-link" href="#contact">Запросы</a>
+        <a class="nav-link" href="{% url 'yoga:coach_lk' %}">Личный кабинет</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#contact">Выход</a>
+        <a class="nav-link" href="{% url 'yoga:coach_workouts' %}">Тренировки</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'yoga:coach_requests' %}">Запросы</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'yoga_users:logout' %}">Выход</a>
+      </li>
+      {% elif trainee %}
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'yoga:show_lk' %}">Личный кабинет</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'yoga_users:logout' %}">Выход</a>
       </li>
       {% endif %}
     </ul>
   </div>
 </div>
 </nav>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

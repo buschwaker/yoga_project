@@ -1,0 +1,94 @@
+{% extends 'yoga/lk_trainee_header.html' %}
+{% load static %}
+{% block trainee_content %}
+    <div class="card shadow">
+        <div class="card-body">
+            <h5 class="card-title">Запросы тренеру</h5>
+            <div class="mb-3">
+                {% if coaching_requests %}
+                    <ul class="list-group">
+                        {% for request in coaching_requests %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                {{ request.coach.first_name }} {{ request.coach.last_name }}
+                                <span class="badge {{ request.accepted|yesno:'bg-success, bg-danger' }}">{{ request.accepted|yesno:'Принят, На рассмотрении' }}</span>
+                                <small>Создан: {{ request.created|date:"d.m.Y H:i" }}</small>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>У вас нет активных запросов.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="card-body">
+            <h5 class="card-title">Выберите тренера</h5>
+            <div class="row">
+                {% for coach in coaches %}
+                    <div class="col-md-4 mb-3">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ coach.first_name }} {{ coach.last_name }}</h5>
+                                <p class="card-text"><strong>Имя пользователя:</strong> {{ coach.username }}</p>
+                                <p class="card-text"><strong>Электронная почта:</strong> {{ coach.email }}</p>
+                                <form method="post">
+                                    {% csrf_token %}
+                                     <input type="hidden" name="coach_id" value="{{ coach.id }}">
+                                    <button type="submit" class="btn btn-primary">Выбрать</button>
+                                 </form>
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p>Пока нет тренеров.</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="card-footer">
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    {% if coaches_page.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page=1" aria-label="First">
+                                <span aria-hidden="true">&laquo; First</span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ coaches_page.previous_page_number }}" aria-label="Previous">
+                                <span aria-hidden="true">&lsaquo;</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% for i in coaches_page.paginator.page_range %}
+                         <li class="page-item {% if coaches_page.number == i %}active{% endif %}"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                    {% endfor %}
+                    {% if coaches_page.has_next %}
+                        <li class="page-item">
+                             <a class="page-link" href="?page={{ coaches_page.next_page_number }}" aria-label="Next">
+                               <span aria-hidden="true">&rsaquo;</span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                           <a class="page-link" href="?page={{ coaches_page.paginator.num_pages }}" aria-label="Last">
+                                <span aria-hidden="true">Last &raquo;</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+{% if messages.error %}
+    <script>
+         swal({
+                title: "Сообщения", // Заголовок
+                text: "message",
+                icon: "info", // Тип уведомления
+                button: "Закрыть", // Текст кнопки
+            });
+    </script>
+{% endif %}
+
+{% endblock %}

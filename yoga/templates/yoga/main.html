@@ -7,14 +7,14 @@
       {% include 'includes/about.html' %}
 
       <!-- Блок с тренировками -->
-      {% if not COACH %}
+      {% if not coach %}
       <section id="classes" class="py-5">
         <div class="container">
             <!-- Общие тренировки -->
             {% include 'trainings/base_trainings.html' %}
 
             <!-- Персональные тренировки -->
-            {% if TRAINEE %}
+            {% if trainee %}
               {% include 'trainings/personal_trainings.html' %}
             {% endif %}
         </div>

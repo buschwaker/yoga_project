@@ -82,3 +82,12 @@ class CoachingRequest(models.Model):
             coaching_requests_from = self.trainee.coaching_requests_from.exclude(id=self.id)
             coaching_requests_from.update(expired=True)
         super().save(*args, **kwargs)
+
+
+class WorkoutStatistic(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='workout_completed_by',
+                             related_query_name='workout_completed_by')
+    training = models.ForeignKey(Training, on_delete=models.CASCADE, related_name='workout_statistic',
+                                 related_query_name='workout_statistic')
+    start_time = models.DateTimeField(auto_now_add=True)
+    end_time = models.DateTimeField(default=False)  # заполняется в момент окончания трени

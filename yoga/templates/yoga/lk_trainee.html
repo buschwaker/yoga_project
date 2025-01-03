@@ -1,0 +1,56 @@
+{% extends 'yoga/lk_trainee_header.html' %}
+{% load static %}
+{% block trainee_content %}
+    <div class="row">
+        <div class="col-md-2">
+            {% if request.user.avatar %}
+                <img src="{{ request.user.avatar.url }}" alt="Аватар" class="img-fluid mb-3 rounded-circle" style="max-width: 200px; max-height: 200px;">
+            {% else %}
+                <img src="{% static 'img/default_avatar.png' %}" alt="Аватар" class="img-fluid mb-3 rounded-circle" style="max-width: 200px; max-height: 200px;">
+            {% endif %}
+<!--            <button type="button" class="btn btn-primary w-100 mb-3" id="editProfileButton" data-bs-toggle="modal" data-bs-target="#editProfileModal">Редактировать</button>-->
+        <a href="{% url 'yoga:edit_profile' %}" class="btn btn-primary w-100 mb-3" id="editProfileButton">Редактировать</a>
+        </div>
+        <div class="col-md-8 pb-5">
+            <div class="card-body">
+                <h5 class="card-title">Ваша информация</h5>
+                <p class="card-text"><strong>Имя:</strong> {{ request.user.first_name }}</p>
+                <p class="card-text"><strong>Фамилия:</strong> {{ request.user.last_name }}</p>
+                <p class="card-text"><strong>Имя пользователя:</strong> {{ request.user.username }}</p>
+                <p class="card-text"><strong>Пол:</strong> {{ request.user.gender }}</p>
+                <p class="card-text"><strong>Рост:</strong> {{ request.user.height }}</p>
+                <p class="card-text"><strong>Вес:</strong> {{ request.user.weight }}</p>
+                <p class="card-text"><strong>Электронная почта:</strong> {{ request.user.email }}</p>
+            </div>
+        </div>
+    </div>
+
+
+
+<div class="row">
+        <div class="col-md-2">
+            {% if request.user.coach.avatar %}
+                <img src="{{ request.user.avatar.url }}" alt="Аватар" class="img-fluid mb-3 rounded-circle" style="max-width: 200px; max-height: 200px;">
+            {% else %}
+                <img src="{% static 'img/default_avatar.png' %}" alt="Аватар" class="img-fluid mb-3 rounded-circle" style="max-width: 200px; max-height: 200px;">
+            {% endif %}
+            <a href="{% url 'yoga:trainee_trainer_choice' %}" class="btn btn-primary w-100 mb-3">Изменить тренера</a>
+        </div>
+    <div class="col-md-8 pb-5">
+            <div class="card-body">
+                <h5 class="card-title">Ваш тренер</h5>
+                {% if request.user.coach %}
+                        <p class="card-text"><strong>Имя:</strong> {{ request.user.coach.first_name }}</p>
+                        <p class="card-text"><strong>Фамилия:</strong> {{ request.user.coach.last_name }}</p>
+                        <p class="card-text"><strong>Имя пользователя:</strong> {{ request.user.coach.username }}</p>
+                        <!-- Добавьте другие поля тренера по необходимости -->
+                {% else %}
+                    <div class="col-md-12 mt-4">
+                        <p>У вас нет тренера.</p>
+                    </div>
+                {% endif %}
+            </div>
+    </div>
+</div>
+
+{% endblock %}
