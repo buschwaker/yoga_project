@@ -6,13 +6,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('yoga_users', '0004_auto_20241226_1352'),
+        ("yoga_users", "0004_auto_20241226_1352"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='user',
-            name='first_name',
-            field=models.CharField(blank=True, max_length=150, verbose_name='first name'),
+            model_name="user",
+            name="first_name",
+            field=models.CharField(
+                blank=True, max_length=150, verbose_name="first name"
+            ),
         ),
     ]

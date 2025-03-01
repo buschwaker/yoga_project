@@ -1,10 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'yoga/coach/lk_coach_header.html' %}
+{% load static %}
+{% block coach_content %}
+<h2 class="text-center mb-4">Запросы на коучинг</h2>
 
-</body>
-</html>
+    {% if coaching_requests %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Trainee</th>
+                    <th>Description</th>
+                    <th>Статус</th>
+                     <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for request in coaching_requests %}
+                    <tr>
+                        <td>{{ request.trainee.username }}</td>
+                        <td>{{ request.description }}</td>
+                        <td>
+                            {% if request.accepted %}
+                                <span class="text-success">Принят</span>
+                            {% elif request.expired %}
+                                <span class="text-danger">Отклонен</span>
+                            {% else %}
+                                <span class="text-warning">На рассмотрении</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                           {% if not request.accepted and not request.expired %}
+                                <div class="d-flex">
+                                   <form method="post" action="{% url 'yoga:accept_coaching_request' request.id %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-success mr-2">Принять</button>
+                                    </form>
+                                     <form method="post" action="{% url 'yoga:decline_coaching_request' request.id %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-danger">Отклонить</button>
+                                    </form>
+                                </div>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Нет запросов на коучинг.</p>
+    {% endif %}
+{% endblock coach_content %}

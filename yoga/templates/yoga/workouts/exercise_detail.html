@@ -3,13 +3,18 @@
 {% block content %}
 <div class="container mt-5">
     <div class="card">
-        <img src="{{ exercise.image.url }}" class="card-img-top" alt="{{ exercise.name }}" width="250" height="250">
+        <img src="{{ exercise.image.url }}" alt="{{ exercise.name }}" width="350" height="300">
         <div class="card-body">
             <h2 class="card-title">{{ exercise.name }}</h2>
             <p class="card-text">{{ exercise.description }}</p>
-            <div id="timer">
-                <p>Осталось: <span id="minutes">{{ duration_minutes }}</span>:<span id="seconds">{{ duration_seconds }}</span></p>
+
+        <div class="card-header">
+            <div class="progress">
+                <div id="progress-bar" class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
+            <h3 id="countdown" class="mt-2 text-center">60</h3>
+        </div>
+
             {% if next_exercise %}
                 <a href="{% url 'yoga:next_exercise' next_exercise.id %}" class="btn btn-primary mt-3">Следующее упражнение</a>
             {% else %}
@@ -21,22 +26,30 @@
 </div>
 
 <script>
-    let minutes = parseInt(document.getElementById('minutes').textContent);
-    let seconds = parseInt(document.getElementById('seconds').textContent);
-    const timerDisplay = document.getElementById('timer');
+    document.addEventListener('DOMContentLoaded', function() {
+        let countdownElement = document.getElementById('countdown');
+        let progressBar = document.getElementById('progress-bar');
+        let timeLeft = 60;
+        const totalTime = 60;
 
-    const timerInterval = setInterval(() => {
-        if (seconds === 0 && minutes === 0) {
-            clearInterval(timerInterval);
-            timerDisplay.innerHTML = "<p>Упражнение завершено!</p>";
-        } else if (seconds === 0) {
-            minutes--;
-            seconds = 59;
-        } else {
-            seconds--;
+        function updateCountdown() {
+            countdownElement.textContent = timeLeft;
+           const progress = (timeLeft / totalTime) * 100;
+            progressBar.style.width = progress + '%';
+             progressBar.setAttribute('aria-valuenow', progress);
+
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                // Ничего не делаем, когда время истекло
+            } else {
+                timeLeft--;
+            }
         }
-        document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
-        document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
-    }, 1000);
+
+        updateCountdown();  // Вызываем немедленно, чтобы установить начальное значение
+
+        let timerInterval = setInterval(updateCountdown, 1000);
+    });
 </script>
+
 {% endblock %}

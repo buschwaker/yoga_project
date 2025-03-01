@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <div class="container mt-5">
+        <h1 class="mb-4 text-center">Личный кабинет</h1>
+        <nav>
+            <ul class="nav nav-tabs justify-content-center">
+                <li class="nav-item">
+                    <a class="nav-link {% if active_tab == 'coach_lk' %}active{% endif %}"
+                       href="{% url 'yoga:coach_lk' %}">
+                        <i class="bi bi-person me-1"></i> Личная информация
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if active_tab == 'coach_requests' %}active{% endif %}"
+                       href="{% url 'yoga:coach_requests' %}">
+                        <i class="bi bi-person-check me-1"></i> Запросы на тренерство
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if active_tab == 'coach_show_training_requests' %}active{% endif %}"
+                       href="{% url 'yoga:coach_show_training_requests' %}"> Запросы на личные тренировки
+                        <i class="bi bi-bar-chart-line me-1"></i>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <div class="mt-4">
+            {% block coach_content %}
+            {% endblock coach_content%}
+        </div>
+    </div>
+{% endblock content %}

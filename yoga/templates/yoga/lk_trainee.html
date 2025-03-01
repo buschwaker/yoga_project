@@ -36,14 +36,13 @@
             {% endif %}
             <a href="{% url 'yoga:trainee_trainer_choice' %}" class="btn btn-primary w-100 mb-3">Изменить тренера</a>
         </div>
-    <div class="col-md-8 pb-5">
+        <div class="col-md-8 pb-5">
             <div class="card-body">
                 <h5 class="card-title">Ваш тренер</h5>
                 {% if request.user.coach %}
                         <p class="card-text"><strong>Имя:</strong> {{ request.user.coach.first_name }}</p>
                         <p class="card-text"><strong>Фамилия:</strong> {{ request.user.coach.last_name }}</p>
                         <p class="card-text"><strong>Имя пользователя:</strong> {{ request.user.coach.username }}</p>
-                        <!-- Добавьте другие поля тренера по необходимости -->
                 {% else %}
                     <div class="col-md-12 mt-4">
                         <p>У вас нет тренера.</p>

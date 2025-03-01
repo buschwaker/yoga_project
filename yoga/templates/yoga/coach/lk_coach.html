@@ -1,10 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'yoga/coach/lk_coach_header.html' %}
+{% load static %}
+{% block coach_content %}
 
-</body>
-</html>
+<div class="row">
+    <div class="col-md-2">
+        {% if request.user.avatar %}
+            <img src="{{ request.user.avatar.url }}" alt="Аватар" class="img-fluid mb-3 rounded-circle" style="max-width: 200px; max-height: 200px; border-radius: 50%; object-fit: cover;">
+        {% else %}
+            <img src="{% static 'img/default_avatar.png' %}" alt="Аватар" class="img-fluid mb-3 rounded-circle" style="max-width: 200px; max-height: 200px; object-fit: cover;">
+        {% endif %}
+        <a href="{% url 'yoga:edit_profile' %}" class="btn btn-primary w-100 mb-3" id="editProfileButton">Редактировать</a>
+    </div>
+    <div class="col-md-10 pb-5">
+         <div class="row">
+            <div class="col-md-6">
+                 <div class="card-body">
+                    <h5 class="card-title">Личные данные</h5>
+                    <p class="card-text"><strong>Имя:</strong> {{ request.user.first_name }}</p>
+                    <p class="card-text"><strong>Фамилия:</strong> {{ request.user.last_name }}</p>
+                    <p class="card-text"><strong>Имя пользователя:</strong> {{ request.user.username }}</p>
+                    <p class="card-text"><strong>Пол:</strong> {{ request.user.gender }}</p>
+                    <p class="card-text"><strong>Рост:</strong> {{ request.user.height }}</p>
+                    <p class="card-text"><strong>Вес:</strong> {{ request.user.weight }}</p>
+                    <p class="card-text"><strong>Электронная почта:</strong> {{ request.user.email }}</p>
+                 </div>
+            </div>
+            <div class="col-md-6">
+                 <div class="card-body">
+                     {% if request.user.info %}
+                         <h5 class="card-title">О вас</h5>
+                         <p class="card-text"><strong>Образование:</strong> {{ request.user.info.education|default:"Не указано" }}</p>
+                         <p class="card-text"><strong>Опыт работы:</strong> {{ request.user.info.work_experience|default:"Не указано" }}</p>
+                         <p class="card-text"><strong>О себе:</strong> {{ request.user.info.bio|default:"Не указано" }}</p>
+                      {% else %}
+                         <p>У вас нет дополнительной информации как у коуча. <a href="{% url 'yoga:create_coach_info' %}" class="btn btn-secondary">Создать информацию</a></p>
+                      {% endif %}
+                </div>
+             </div>
+         </div>
+    </div>
+</div>
+
+{% endblock coach_content %}

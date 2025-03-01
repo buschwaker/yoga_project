@@ -6,13 +6,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('yoga_app', '0002_auto_20241114_1600'),
+        ("yoga_app", "0002_auto_20241114_1600"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='exercise',
-            name='image',
-            field=models.ImageField(blank=True, null=True, upload_to='images/'),
+            model_name="exercise",
+            name="image",
+            field=models.ImageField(
+                blank=True, null=True, upload_to="images/"
+            ),
         ),
     ]

@@ -1,0 +1,30 @@
+{% load static %}
+{% block coach_content %}
+<h2 class="text-center mb-4">Ваши ученики</h2>
+{% for trainee in trainees %}
+    <div class="row">
+        <div class="col-md-2 text-center">
+            {% if trainee.avatar %}
+                <img src="{{ trainee.avatar.url }}" alt="Аватар" class="img-fluid mb-3 rounded-circle" style="max-width: 200px; max-height: 200px;">
+            {% else %}
+                <img src="{% static 'img/default_avatar.png' %}" alt="Аватар" class="img-fluid mb-3 rounded-circle" style="max-width: 200px; max-height: 200px;">
+            {% endif %}
+             <a href="{% url 'yoga:trainee_stats' trainee_id=trainee.id %}" class="btn btn-secondary w-100 mb-3">Тренировочный процесс</a>
+        </div>
+        <div class="col-md-8 pb-5">
+            <div class="card-body">
+                <p class="card-text"><strong>Имя:</strong> {{ trainee.first_name }}</p>
+                <p class="card-text"><strong>Фамилия:</strong> {{ trainee.last_name }}</p>
+                <p class="card-text"><strong>Имя пользователя:</strong> {{ trainee.username }}</p>
+                <p class="card-text"><strong>Пол:</strong> {{ trainee.gender }}</p>
+                <p class="card-text"><strong>Рост:</strong> {{ trainee.height }}</p>
+                <p class="card-text"><strong>Вес:</strong> {{ trainee.weight }}</p>
+                <p class="card-text"><strong>Электронная почта:</strong> {{ trainee.email }}</p>
+            </div>
+        </div>
+    </div>
+{% empty %}
+    <p>Пока нет учеников</p>
+{% endfor %}
+
+{% endblock coach_content %}

@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <form method="get" class="mb-3">
+                <div class="input-group">
+                    <input type="text" name="q" class="form-control" placeholder="Поиск по названию" value="{{ query|default:'' }}">
+                    <button class="btn btn-outline-secondary" type="submit">Поиск</button>
+                </div>
+            </form>
+          </div>
+      </div>
+
+    <div class="row">
+      {% for exercise in exercises %}
+          <div class="col-12 mb-3">
+              <div class="row align-items-center">
+                  <div class="col-md-3">
+                      {% if exercise.image %}
+                          <img src="{{ exercise.image.url }}" alt="{{ exercise.name }}" class="img-fluid" style="max-height: 150px; max-width: 100%;">
+                      {% else %}
+                          <img src="{% static 'images/default-exercise.png' %}" alt="No Image" class="img-fluid" style="max-height: 150px; max-width: 100%;">
+                      {% endif %}
+                  </div>
+                  <div class="col-md-9">
+                      <h3>{{ exercise.name }}</h3>
+                      <p>{{ exercise.description }}</p>
+                  </div>
+              </div>
+          </div>
+      {% empty %}
+           <div class="col-12 text-center">Нет тренировок, соответствующих запросу</div>
+      {% endfor %}
+  </div>
+</div>
+
+{% endblock %}

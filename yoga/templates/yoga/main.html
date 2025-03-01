@@ -4,8 +4,9 @@
       <!-- Главный экран -->
       {% include 'includes/welcome.html' %}
       <!-- О студии -->
-      {% include 'includes/about.html' %}
-
+        {% if not trainee and not coach%}
+            {% include 'includes/about.html' %}
+        {% endif %}
       <!-- Блок с тренировками -->
       {% if not coach %}
       <section id="classes" class="py-5">
@@ -21,6 +22,13 @@
       </section>
       {% endif %}
 
-      <!-- Контакты -->
+
+{% if coach %}
+    {% include 'yoga/coach/coach_trainees.html' %}
+  {% endif %}
+
+
+    {% if not coach %}
       {% include 'includes/contact_form.html' %}
+    {% endif %}
   {% endblock content %}

@@ -7,8 +7,7 @@ from django.db.models.signals import post_migrate, post_save
 from django.dispatch import receiver
 
 from yoga_app.constants import BASE, PERSONAL
-from yoga_app.models import Training, CoachingRequest
-
+from yoga_app.models import CoachingRequest, Training
 from yoga_users.constants import TRAINEE
 
 
@@ -16,7 +15,7 @@ def attach_photo(training, image_path):
     if not os.path.exists(image_path):
         print(f"No file: {image_path}")
         return
-    upload_to_dir = Training._meta.get_field('image').upload_to
+    upload_to_dir = Training._meta.get_field("image").upload_to
     image_name = os.path.basename(image_path)
     media_image_dir = os.path.join(settings.MEDIA_ROOT, upload_to_dir)
     os.makedirs(media_image_dir, exist_ok=True)
@@ -31,10 +30,10 @@ def attach_photo(training, image_path):
 
 def create_base_trainings(training_info):
     training = Training.objects.create(
-            name=training_info["name"],
-            description=training_info["description"],
-            type=training_info["type"],
-        )
+        name=training_info["name"],
+        description=training_info["description"],
+        type=training_info["type"],
+    )
     attach_photo(training, training_info["image"])
 
 
@@ -50,19 +49,19 @@ def base_trainings_handler(sender, **kwargs):
             "name": "Йога для начинающих",
             "description": "Занятия для тех, кто только начинает путь в йогу",
             "type": BASE,
-            "image": os.path.join(images_path, "newby.jpeg")
+            "image": os.path.join(images_path, "newby.jpeg"),
         },
         {
             "name": "Йога для продвинутых",
             "description": "Интенсивные занятия для опытных практиков",
             "type": BASE,
-            "image": os.path.join(images_path, "advanced.jpg")
+            "image": os.path.join(images_path, "advanced.jpg"),
         },
         {
             "name": "Йога для беременных",
             "description": "Специальные занятия для будущих мам",
             "type": BASE,
-            "image": os.path.join(images_path, "pregnancy.jpg")
+            "image": os.path.join(images_path, "pregnancy.jpg"),
         },
     ]
     for info in trainings_info:

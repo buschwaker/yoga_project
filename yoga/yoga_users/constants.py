@@ -1,13 +1,12 @@
-COACH = 'coach'
-TRAINEE = 'trainee'
+COACH = "coach"
+TRAINEE = "trainee"
 
 ROLES_CHOICES = [
-    (COACH, 'Coach'),
-    (TRAINEE, 'Trainee'),
+    (COACH, "Coach"),
+    (TRAINEE, "Trainee"),
 ]
 
 GENDER_CHOICES = [
-    ('male', 'Мужской'),
-    ('female', 'Женский'),
+    ("male", "Мужской"),
+    ("female", "Женский"),
 ]
-

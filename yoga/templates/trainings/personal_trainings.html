@@ -1,17 +1,30 @@
-{% if personal_trainings %}
-  <h2 class="text-center mb-4">Ваши личные тренировки</h2>
-{% elif not personal_trainings %}
-  <h2 class="text-center mb-4">У вас нет персональных тренировок</h2>
-{% endif %}
-{% for personal_training in personal_trainings %}
-<div class="col-md-4">
-  <div class="card service-card">
-    <img src="{{ personal_training.image.url }}" class="card-img-top" alt="{{ personal_training.name }}">
-    <div class="card-body">
-      <h5 class="card-title">{{ personal_training.name }}</h5>
-      <p class="card-text">{{ personal_training.description }}</p>
-      <a href="{% url 'yoga:show_workout' training_id=personal_training.id %}" class="btn btn-primary">Пройти тренировку</a>
+<div class="container">
+    <h2 class="text-center mb-4">Ваши личные тренировки</h2>
+    <div class="d-flex justify-content-center mb-4">
+        <div>
+            <a href="{% url 'yoga:training_request' %}" class="btn btn-primary mr-2">Запросить личную тренировку</a>
+            <a href="{% url 'yoga:show_training_requests' %}" class="btn btn-secondary">Посмотреть запросы</a>
+        </div>
     </div>
-  </div>
+
+    {% if not personal_trainings %}
+        <h2 class="text-center mb-4">У вас нет персональных тренировок</h2>
+    {% endif %}
+    <div class="row">
+    {% for personal_training in personal_trainings %}
+        <div class="col-md-4 mb-4">
+            <div class="card service-card">
+                {% if personal_training.image %}
+                    <img src="{{ personal_training.image.url }}" class="card-img-top" alt="{{ personal_training.name }}">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ personal_training.name }}</h5>
+                    <p class="card-text">{{ personal_training.description }}</p>
+                    <a href="{% url 'yoga:show_workout' training_id=personal_training.id %}" class="btn btn-primary">Пройти тренировку</a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
 </div>
-{% endfor %}
+

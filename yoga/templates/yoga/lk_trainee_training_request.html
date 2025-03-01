@@ -1,0 +1,48 @@
+{% extends 'yoga/lk_trainee_header.html' %}
+{% load static %}
+{% block trainee_content %}
+    <div class="container mt-4">
+        <div class="card shadow">
+            <div class="card-body text-center">
+                <h5 class="card-title">Запросы на тренировки</h5>
+            </div>
+            <a href="{% url 'yoga:training_request' %}" class="btn btn-primary mt-3">Создать запрос на тренировку</a>
+        </div>
+        {% if training_requests %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Description</th>
+                        <th>Статус</th>
+                        <th>Тренировка</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for request in training_requests %}
+                        <tr>
+                            <td>{{ request.description }}</td>
+                            <td>
+                                {% if request.accepted %}
+                                    <span class="text-success">Выполнен</span>
+                                {% elif request.expired %}
+                                    <span class="text-danger">Отклонен</span>
+                                {% else %}
+                                    <span class="text-warning">В процессе</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if request.accepted and request.training %}
+                                    <a href="{% url 'yoga:show_workout' request.training.id %}" class="btn btn-primary">
+                                        Показать тренировку
+                                    </a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>Нет запросов на тренировки</p>
+        {% endif %}
+    </div>
+{% endblock %}

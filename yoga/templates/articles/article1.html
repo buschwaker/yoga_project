@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block trainee_content %}
+
+    <div class="container mt-5">
+        <article>
+            <header>
+                <h1 class="article-title">Название статьи о йоге</h1>
+                <img src="{% static 'img/yoga_main_image.jpg' %}" alt="Главное изображение статьи" class="img-fluid article-main-image mb-4">
+            </header>
+
+            <section class="article-body">
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <p>Первый абзац статьи о йоге.  </div>
+                    <div class="col-md-6">
+                        <img src="{% static 'img/yoga_image1.jpg' %}" alt="Изображение к абзацу" class="img-fluid">
+                    </div>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <p>Второй абзац статьи.  </div>
+                    <div class="col-md-6">
+                        <img src="{% static 'img/yoga_image2.jpg' %}" alt="Изображение к абзацу" class="img-fluid">
+                    </div>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <p>Третий абзац статьи.  </div>
+                    <div class="col-md-6">
+                        <img src="{% static 'img/yoga_image3.jpg' %}" alt="Изображение к абзацу" class="img-fluid">
+                    </div>
+                </div>
+            </section>
+        </article>
+    </div>
+
+
+{% endblock %}

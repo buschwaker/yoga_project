@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+  <div class="container">
+    <h1>Создание тренировки</h1>
+    <form method="post" action="{% url 'yoga:create_training_by_request' request_id=request.id %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="id_name" class="form-label">Название тренировки:</label>
+            <textarea class="form-control" id="id_name" name="name" rows="3"></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="id_description" class="form-label">Описание тренировки:</label>
+            <textarea class="form-control" id="id_description" name="description" rows="3"></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="id_image" class="form-label">Изображение тренировки:</label>
+            <input type="file" class="form-control" id="id_image" name="image">
+        </div>
+        <p>Выберите упражнения:</p>
+        {% for exercise in exercises %}
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="exercises" id="exercise-{{ exercise.id }}" value="{{ exercise.id }}">
+                <label class="form-check-label" for="exercise-{{ exercise.id }}">
+                    {{ exercise.name }} ({{ exercise.duration }} мин)
+                </label>
+            </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-success mt-3">Создать тренировку</button>
+    </form>
+  </div>
+{% endblock %}

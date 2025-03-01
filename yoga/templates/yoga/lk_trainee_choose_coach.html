@@ -1,19 +1,49 @@
 {% extends 'yoga/lk_trainee_header.html' %}
 {% load static %}
 {% block trainee_content %}
+
+<div class="row">
+        <div class="col-md-2">
+            {% if request.user.coach.avatar %}
+                <img src="{{ request.user.avatar.url }}" alt="Аватар" class="img-fluid mb-3 rounded-circle" style="max-width: 200px; max-height: 200px; object-fit: cover;">
+            {% else %}
+                <img src="{% static 'img/default_avatar.png' %}" alt="Аватар" class="img-fluid mb-3 rounded-circle" style="max-width: 200px; max-height: 200px; object-fit: cover;">
+            {% endif %}
+        </div>
+        <div class="col-md-8 pb-5">
+            <div class="card-body">
+                <h5 class="card-title text-center mb-4">Ваш тренер</h5>
+                {% if request.user.coach %}
+                        <p class="card-text"><strong>Имя:</strong> {{ request.user.coach.first_name }}</p>
+                        <p class="card-text"><strong>Фамилия:</strong> {{ request.user.coach.last_name }}</p>
+                        <p class="card-text"><strong>Имя пользователя:</strong> {{ request.user.coach.username }}</p>
+                {% else %}
+                    <div class="col-md-12 mt-4">
+                        <p>У вас нет тренера.</p>
+                    </div>
+                {% endif %}
+                <br>
+            </div>
+    </div>
+</div>
+
     <div class="card shadow">
         <div class="card-body">
-            <h5 class="card-title">Запросы тренеру</h5>
+            <h5 class="card-title mb-4 text-center">Запросы на изменение тренера</h5>
             <div class="mb-3">
                 {% if coaching_requests %}
                     <ul class="list-group">
                         {% for request in coaching_requests %}
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                {{ request.coach.first_name }} {{ request.coach.last_name }}
-                                <span class="badge {{ request.accepted|yesno:'bg-success, bg-danger' }}">{{ request.accepted|yesno:'Принят, На рассмотрении' }}</span>
-                                <small>Создан: {{ request.created|date:"d.m.Y H:i" }}</small>
-                            </li>
-                        {% endfor %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{ request.coach.first_name }} {{ request.coach.last_name }}
+                        <span class="badge {{ request.accepted|yesno:'bg-success, bg-danger' }}">{{ request.accepted|yesno:'Принят, На рассмотрении' }}</span>
+                        <small>Создан: {{ request.created|date:"d.m.Y H:i" }}</small>
+                        <form method="post" action="{% url 'yoga:delete_coaching_request' request.id %}" style="margin-left:10px;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger btn-sm">Удалить</button>
+                        </form>
+                    </li>
+                {% endfor %}
                     </ul>
                 {% else %}
                     <p>У вас нет активных запросов.</p>
@@ -22,15 +52,25 @@
         </div>
 
         <div class="card-body">
-            <h5 class="card-title">Выберите тренера</h5>
+            <h5 class="card-title text-center mb-4">Выбрать или изменить тренера</h5>
             <div class="row">
                 {% for coach in coaches %}
+                <div class="col-md-2">
+            {% if coach.avatar %}
+                <img src="{{ coach.avatar.url }}" alt="Аватар" class="img-fluid mb-3 rounded-circle" style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover;">
+                    {% else %}
+                <img src="{% static 'img/default_avatar.png' %}" alt="Аватар" class="img-fluid mb-3 rounded-circle" style="max-width: 200px; max-height: 200px; object-fit: cover;">
+            {% endif %}
+            </div>
                     <div class="col-md-4 mb-3">
                         <div class="card h-100">
                             <div class="card-body">
                                 <h5 class="card-title">{{ coach.first_name }} {{ coach.last_name }}</h5>
-                                <p class="card-text"><strong>Имя пользователя:</strong> {{ coach.username }}</p>
                                 <p class="card-text"><strong>Электронная почта:</strong> {{ coach.email }}</p>
+                                <p class="card-text"><strong>Образование:</strong> {{ coach.info.education|default:"Не указано" }}</p>
+                                <p class="card-text"><strong>Опыт работы:</strong> {{ coach.info.work_experience|default:"Не указано" }}</p>
+                                <p class="card-text"><strong>О себе:</strong> {{ coach.info.bio|default:"Не указано" }}</p>
+
                                 <form method="post">
                                     {% csrf_token %}
                                      <input type="hidden" name="coach_id" value="{{ coach.id }}">
@@ -80,15 +120,14 @@
         </div>
     </div>
 
-{% if messages.error %}
-    <script>
+
+{% endblock %}
+
+<script>
          swal({
                 title: "Сообщения", // Заголовок
-                text: "message",
+                text: " {{ message }}",
                 icon: "info", // Тип уведомления
                 button: "Закрыть", // Текст кнопки
             });
     </script>
-{% endif %}
-
-{% endblock %}

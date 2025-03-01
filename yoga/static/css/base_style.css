@@ -1,12 +1,24 @@
+    .hero-section {
+          background: url(/static/img/main_image.jpg) no-repeat center center;
+          background-size: cover;
+          color: white;
+          padding: 80px 0;
+      }
+
+    html, body {
+          height: 100%; /* Чтобы flexbox занял всю высоту окна */
+    }
+
+    html {
+        /*background: url("/static/img/fon.png") no-repeat center center fixed; */
+        background-size: cover;
+    }
+
     body {
       font-family: Arial, sans-serif;
+      background: transparent;
     }
-    .hero-section {
-      background: url({% static 'img/main_image.jpg' %}) no-repeat center center;
-      background-size: cover;
-      color: black;
-      padding: 80px 0;
-    }
+
     .hero-section h1 {
       font-size: 3rem;
       font-weight: bold;
@@ -90,3 +102,60 @@
 .fade-out {
     opacity: 0;
 }
+
+.card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.card-body {
+    background-color: #f8f9fa; /* Светлый фон для карточки */
+}
+
+.article-title {
+    font-size: 2.5em;
+    margin-bottom: 1rem;
+}
+
+.article-main-image {
+    max-width: 100%;
+    height: auto;
+}
+
+.article-body .row {
+    align-items: center; /* Выравнивание по вертикали */
+}
+
+.article-body img {
+    max-width: 100%;
+    height: auto;
+}
+
+.today {
+    background: #009fff !important; /* Light grey for today */
+        }
+
+.training_day {
+    background: #198754 !important; /* Light grey for today */
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.calendar-header button {
+    padding: 5px 10px;
+}
+
+.workout-circle {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: red; /* Цвет кружка */
+    margin: auto;
+}
+
