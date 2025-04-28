@@ -1,9 +1,10 @@
 import os
 import shutil
+from math import ceil
 
 from django.conf import settings
-from django.db import transaction
-from django.db.models.signals import post_migrate, post_save
+from django.db import transaction, models
+from django.db.models.signals import post_migrate, post_save, m2m_changed
 from django.dispatch import receiver
 
 from yoga_app.constants import BASE, PERSONAL
@@ -66,3 +67,14 @@ def base_trainings_handler(sender, **kwargs):
     ]
     for info in trainings_info:
         create_base_trainings(info)
+
+
+@receiver(m2m_changed, sender=Training.exercises.through)
+def update_training_complexity(sender, instance, action, **kwargs):
+    if action in ['post_add', 'post_remove', 'post_clear']:
+        if instance.exercises.exists():
+            avg_complexity = instance.exercises.aggregate(
+                avg_comp=models.Avg('complexity')
+            )['avg_comp']
+            instance.complexity = ceil(avg_complexity)
+            instance.save(update_fields=['complexity'])

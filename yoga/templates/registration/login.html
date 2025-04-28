@@ -1,31 +1,72 @@
 {% extends 'base.html' %}
 {% block content %}
+<!-- Главный экран -->
 {% include 'includes/welcome.html' %}
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <form action="{% url 'yoga_users:login' %}" method="post">
-                {% csrf_token %}
-                <div class="mb-3">
-                    <label for="{{ form.username.id_for_label }}" class="form-label custom-label">Имя Пользователя</label>
-                    <input type="text" name="{{ form.username.html_name }}" class="form-control custom-input mx-auto" id="{{ form.username.id_for_label }}" placeholder="Введите имя пользователя" required>
-                </div>
-                <div class="mb-3">
-                    <label for="{{ form.password.id_for_label }}" class="form-label custom-label">Пароль</label>
-                    <input type="password" name="{{ form.password.html_name }}" class="form-control custom-input mx-auto" id="{{ form.password.id_for_label }}" placeholder="Введите пароль" required>
-                </div>
-                <div class="text-center">
-                    <button type="submit" class="btn btn-primary custom-button mx-auto d-block">Войти</button>
-                </div>
-            </form>
-            <div class="text-center mt-3">
-                <p>Нет аккаунта? <a href="{% url 'yoga_users:signup' %}" data-bs-toggle="tab" class="text-primary">Зарегистрируйтесь</a></p>
+<div class="row justify-content-center">
+    <div class="col-md-8 p-5">
+        <div class="card">
+            <div class="card-header">
+                Войти
             </div>
+            <div class="card-body">
+                {# Этот блок будет показан, если в форме есть ошибки #}
+                {% if form.errors %}
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <div class="alert alert-danger">
+                                {{ error|escape }}
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                    {% for error in form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {{ error|escape }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
 
-        </div>
-    </div>
-</div>
+                <form method="post" action="{% url 'yoga_users:login' %}">
+                    {% csrf_token %}
+
+                    <div class="form-group row my-3 p-3">
+                        <label for="{{ form.username.id_for_label }}">
+                            Имя пользователя
+                            <span class="required text-danger">*</span>
+                        </label>
+                        <input type="text"
+                               name="{{ form.username.html_name }}"
+                               class="form-control"
+                               id="{{ form.username.id_for_label }}"
+                               placeholder="Введите имя пользователя"
+                               required>
+                    </div>
+
+                    <div class="form-group row my-3 p-3">
+                        <label for="{{ form.password.id_for_label }}">
+                            Пароль
+                            <span class="required text-danger">*</span>
+                        </label>
+                        <input type="password"
+                               name="{{ form.password.html_name }}"
+                               class="form-control"
+                               id="{{ form.password.id_for_label }}"
+                               placeholder="Введите пароль"
+                               required>
+                    </div>
+
+                    <div class="col-md-6 offset-md-3">
+                        <button type="submit" class="btn btn-primary w-100">Войти</button>
+                    </div>
+                </form>
+
+                <div class="text-center mt-3">
+                    <p>Нет аккаунта? <a href="{% url 'yoga_users:signup' %}" class="text-primary">Зарегистрируйтесь</a></p>
+                </div>
+            </div> <!-- card body -->
+        </div> <!-- card -->
+    </div> <!-- col -->
+</div> <!-- row -->
 
 {% endblock %}
 

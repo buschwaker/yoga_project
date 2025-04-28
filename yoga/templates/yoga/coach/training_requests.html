@@ -1,7 +1,11 @@
 {% extends 'yoga/coach/lk_coach_header.html' %}
 {% load static %}
 {% block coach_content %}
-<h2 class="text-center mb-4">Запросы на личные тренировки</h2>
+<div class="container py-4">
+<h2 class="text-center mb-4" style="font-family: 'Montserrat', sans-serif; font-weight: 700; color: #2c3e50; text-transform: uppercase; letter-spacing: 1.5px; position: relative; padding-bottom: 15px;">
+        Запросы на личные тренировки
+        <span style="display: block; width: 80px; height: 4px; background: linear-gradient(90deg, #3498db, #9b59b6); margin: 10px auto 0; border-radius: 2px;"></span>
+    </h2>
 
 {% if training_requests %}
         <table class="table">
@@ -50,3 +54,4 @@
     {% endif %}
 
 {% endblock coach_content %}
+</div>

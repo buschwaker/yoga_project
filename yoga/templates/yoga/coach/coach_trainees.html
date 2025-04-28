@@ -1,30 +1,115 @@
 {% load static %}
 {% block coach_content %}
-<h2 class="text-center mb-4">Ваши ученики</h2>
-{% for trainee in trainees %}
-    <div class="row">
-        <div class="col-md-2 text-center">
-            {% if trainee.avatar %}
-                <img src="{{ trainee.avatar.url }}" alt="Аватар" class="img-fluid mb-3 rounded-circle" style="max-width: 200px; max-height: 200px;">
-            {% else %}
-                <img src="{% static 'img/default_avatar.png' %}" alt="Аватар" class="img-fluid mb-3 rounded-circle" style="max-width: 200px; max-height: 200px;">
-            {% endif %}
-             <a href="{% url 'yoga:trainee_stats' trainee_id=trainee.id %}" class="btn btn-secondary w-100 mb-3">Тренировочный процесс</a>
-        </div>
-        <div class="col-md-8 pb-5">
-            <div class="card-body">
-                <p class="card-text"><strong>Имя:</strong> {{ trainee.first_name }}</p>
-                <p class="card-text"><strong>Фамилия:</strong> {{ trainee.last_name }}</p>
-                <p class="card-text"><strong>Имя пользователя:</strong> {{ trainee.username }}</p>
-                <p class="card-text"><strong>Пол:</strong> {{ trainee.gender }}</p>
-                <p class="card-text"><strong>Рост:</strong> {{ trainee.height }}</p>
-                <p class="card-text"><strong>Вес:</strong> {{ trainee.weight }}</p>
-                <p class="card-text"><strong>Электронная почта:</strong> {{ trainee.email }}</p>
+
+<div class="container py-4">
+    <h2 class="text-center mb-4" style="font-family: 'Montserrat', sans-serif; font-weight: 700; color: #2c3e50; text-transform: uppercase; letter-spacing: 1.5px; position: relative; padding-bottom: 15px; margin-top: 30px;">
+        Ваши ученики
+        <span style="display: block; width: 80px; height: 4px; background: linear-gradient(90deg, #3498db, #9b59b6); margin: 10px auto 0; border-radius: 2px;"></span>
+    </h2>
+
+    {% if not trainees %}
+    <div class="text-center py-5">
+        <img src="{% static 'img/no-students.svg' %}" alt="No students" class="img-fluid mb-4" style="max-height: 250px;">
+        <h3 class="h4" style="font-family: 'Montserrat', sans-serif; color: #7f8c8d;">Пока нет учеников</h3>
+        <p class="text-muted">Ваши будущие ученики будут отображаться здесь</p>
+    </div>
+    {% endif %}
+
+    <div class="row g-4">
+        {% for trainee in trainees %}
+        <div class="col-12">
+            <div class="card shadow-sm border-0 overflow-hidden" style="border-radius: 15px;">
+                <div class="row g-0">
+                    <!-- Измененная колонка с аватаром -->
+                    <div class="col-md-3 col-lg-2 p-0 d-flex flex-column" style="background-color: #f8f9fa;">
+                        <div class="d-flex flex-column align-items-center p-4 h-100">
+                            {% if trainee.avatar %}
+                                <img src="{{ trainee.avatar.url }}" alt="Аватар" class="img-fluid mb-3 rounded-circle shadow" style="width: 150px; height: 150px; object-fit: cover;">
+                            {% else %}
+                                <img src="{% static 'img/default_avatar.png' %}" alt="Аватар" class="img-fluid mb-3 rounded-circle shadow" style="width: 150px; height: 150px; object-fit: cover;">
+                            {% endif %}
+                            <a href="{% url 'yoga:trainee_stats' trainee_id=trainee.id %}" class="btn btn-primary w-100 mt-auto" style="
+                                background: linear-gradient(90deg, #3498db, #9b59b6);
+                                border: none;
+                                border-radius: 50px;
+                                font-weight: 600;
+                                max-width: 150px;">
+                                <i class="fas fa-chart-line me-2"></i> Статистика
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Колонка с информацией -->
+                    <div class="col-md-9 col-lg-10">
+                        <div class="card-body p-4">
+                            <!-- Остальное содержимое без изменений -->
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <i class="fas fa-user-circle me-3" style="color: #3498db; font-size: 1.2rem;"></i>
+                                        <div>
+                                            <h5 class="mb-0" style="font-family: 'Montserrat', sans-serif; color: #2c3e50;">{{ trainee.first_name }} {{ trainee.last_name }}</h5>
+                                            <small class="text-muted">@{{ trainee.username }}</small>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex align-items-center mb-3">
+                                        <i class="fas fa-venus-mars me-3" style="color: #e74c3c; font-size: 1.2rem;"></i>
+                                        <div>
+                                            <p class="mb-0" style="font-weight: 500;">Пол: <span style="color: #34495e;">{{ trainee.get_gender_display }}</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <i class="fas fa-ruler-vertical me-3" style="color: #2ecc71; font-size: 1.2rem;"></i>
+                                        <div>
+                                            <p class="mb-0" style="font-weight: 500;">Рост: <span style="color: #34495e;">{{ trainee.height }} см</span></p>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex align-items-center mb-3">
+                                        <i class="fas fa-weight me-3" style="color: #f39c12; font-size: 1.2rem;"></i>
+                                        <div>
+                                            <p class="mb-0" style="font-weight: 500;">Вес: <span style="color: #34495e;">{{ trainee.weight }} кг</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-envelope me-3" style="color: #9b59b6; font-size: 1.2rem;"></i>
+                                <div>
+                                    <p class="mb-0" style="font-weight: 500;">Email: <span style="color: #3498db;">{{ trainee.email }}</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+        {% endfor %}
     </div>
-{% empty %}
-    <p>Пока нет учеников</p>
-{% endfor %}
+</div>
+
+<style>
+    body {
+        font-family: 'Montserrat', sans-serif;
+        background-color: #f5f7fa;
+    }
+    .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+    /* Фикс для выравнивания */
+    .row.g-0 > [class^="col-"] {
+        padding-right: 0;
+        padding-left: 0;
+    }
+</style>
 
 {% endblock coach_content %}

@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "yoga_users.apps.YogaUsersConfig",
     "crispy_forms",
     "crispy_bootstrap4",
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [

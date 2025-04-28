@@ -11,7 +11,8 @@ from yoga_app.views import (accept_coaching_request, coach_requests,
                             get_user_info, index, next_exercise_view,
                             show_articles, show_training_requests,
                             show_workout, start_workout, trainee_choose_coach,
-                            trainee_statistics, trainee_stats, workout_end,)
+                            trainee_statistics, trainee_stats, workout_end, articles_exercise_detail,
+                            get_coach_request_trainee_info, )
 
 from . import views
 
@@ -54,6 +55,7 @@ urlpatterns = [
         name="coach_show_training_requests",
     ),
     path("coach_lk/requests/", coach_requests, name="coach_requests"),
+    path('coach_lk/requests/trainee', get_coach_request_trainee_info, name='get_coach_request_trainee_info'),
     path(
         "coach_requests/accept/<int:request_id>/",
         accept_coaching_request,
@@ -100,6 +102,10 @@ urlpatterns = [
         name="show_training_requests",
     ),
     path("articles/", show_articles, name="articles"),
+
+    path('articles/<int:exercise_id>/', articles_exercise_detail, name='articles_exercise_detail'),
+
+    path('training-request/create/', views.create_training_request, name='training_request'),
 ]
 
 if settings.DEBUG:

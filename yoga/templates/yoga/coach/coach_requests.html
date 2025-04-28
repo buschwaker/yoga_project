@@ -1,7 +1,11 @@
 {% extends 'yoga/coach/lk_coach_header.html' %}
 {% load static %}
 {% block coach_content %}
-<h2 class="text-center mb-4">Запросы на коучинг</h2>
+<div class="container py-4">
+<h2 class="text-center mb-4" style="font-family: 'Montserrat', sans-serif; font-weight: 700; color: #2c3e50; text-transform: uppercase; letter-spacing: 1.5px; position: relative; padding-bottom: 15px;">
+        Запросы на коучинг
+        <span style="display: block; width: 80px; height: 4px; background: linear-gradient(90deg, #3498db, #9b59b6); margin: 10px auto 0; border-radius: 2px;"></span>
+    </h2>
 
     {% if coaching_requests %}
         <table class="table">
@@ -16,7 +20,11 @@
             <tbody>
                 {% for request in coaching_requests %}
                     <tr>
-                        <td>{{ request.trainee.username }}</td>
+                        <td>
+                            <a href="{% url 'yoga:get_coach_request_trainee_info' request.trainee.id %}" class="text-decoration-none">
+                                @{{ request.trainee.username }}
+                            </a>
+                        </td>
                         <td>{{ request.description }}</td>
                         <td>
                             {% if request.accepted %}
@@ -49,3 +57,4 @@
         <p>Нет запросов на коучинг.</p>
     {% endif %}
 {% endblock coach_content %}
+    </div>

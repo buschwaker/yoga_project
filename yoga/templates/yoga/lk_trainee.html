@@ -4,9 +4,9 @@
     <div class="row">
         <div class="col-md-2">
             {% if request.user.avatar %}
-                <img src="{{ request.user.avatar.url }}" alt="Аватар" class="img-fluid mb-3 rounded-circle" style="max-width: 200px; max-height: 200px;">
+                <img src="{{ request.user.avatar.url }}" alt="Аватар" class="img-fluid mb-3 rounded-circle" style="max-width: 180px; max-height: 180px;">
             {% else %}
-                <img src="{% static 'img/default_avatar.png' %}" alt="Аватар" class="img-fluid mb-3 rounded-circle" style="max-width: 200px; max-height: 200px;">
+                <img src="{% static 'img/default_avatar.png' %}" alt="Аватар" class="img-fluid mb-3 rounded-circle" style="max-width: 180px; max-height: 180px;">
             {% endif %}
 <!--            <button type="button" class="btn btn-primary w-100 mb-3" id="editProfileButton" data-bs-toggle="modal" data-bs-target="#editProfileModal">Редактировать</button>-->
         <a href="{% url 'yoga:edit_profile' %}" class="btn btn-primary w-100 mb-3" id="editProfileButton">Редактировать</a>
@@ -30,9 +30,9 @@
 <div class="row">
         <div class="col-md-2">
             {% if request.user.coach.avatar %}
-                <img src="{{ request.user.avatar.url }}" alt="Аватар" class="img-fluid mb-3 rounded-circle" style="max-width: 200px; max-height: 200px;">
+                <img src="{{ request.user.coach.avatar.url }}" alt="Аватар" class="img-fluid mb-3 rounded-circle" style="max-width: 180px; max-height: 180px;">
             {% else %}
-                <img src="{% static 'img/default_avatar.png' %}" alt="Аватар" class="img-fluid mb-3 rounded-circle" style="max-width: 200px; max-height: 200px;">
+                <img src="{% static 'img/default_avatar.png' %}" alt="Аватар" class="img-fluid mb-3 rounded-circle" style="max-width: 180px; max-height: 180px;">
             {% endif %}
             <a href="{% url 'yoga:trainee_trainer_choice' %}" class="btn btn-primary w-100 mb-3">Изменить тренера</a>
         </div>

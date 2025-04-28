@@ -1,17 +1,85 @@
-{% extends 'base.html' %}
+{% extends 'yoga/lk_trainee_header.html' %}
 {% load static %}
-{% block content %}
-<h2 class="text-center mb-4">Запрос на личную тренировку</h2>
-<form method="post">
+{% load widget_tweaks %}
+
+{% block trainee_content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-lg">
+                <div class="card-header bg-primary text-white py-3">
+                    <h3 class="mb-0 text-center">Запрос на персональную тренировку</h3>
+                </div>
+
+                <div class="card-body p-4">
+                    <form method="POST" action="{% url 'yoga:training_request' %}">
     {% csrf_token %}
-    <div class="form-group">
-        <label for="id_duration">Продолжительность (минуты):</label>
+
+    <div class="mb-3">
+        <label for="{{ form.duration.id_for_label }}" class="form-label">
+            {{ form.duration.label }}
+        </label>
         {{ form.duration }}
+        {% if form.duration.errors %}
+            <div class="invalid-feedback">
+                {{ form.duration.errors }}
+            </div>
+        {% endif %}
     </div>
-    <div class="form-group">
-        <label for="id_description">Описание:</label>
+
+    <div class="mb-3">
+    <label for="{{ form.complexity.id_for_label }}" class="form-label">
+        {{ form.complexity.label }}
+    </label>
+    <select name="complexity" class="form-select" id="{{ form.complexity.id_for_label }}">
+        <option value="">Выберите сложность</option>
+        <option value="1" {% if form.complexity.value == "1" %}selected{% endif %}>Легкий</option>
+        <option value="2" {% if form.complexity.value == "2" %}selected{% endif %}>Средний</option>
+        <option value="3" {% if form.complexity.value == "3" %}selected{% endif %}>Сложный</option>
+    </select>
+</div>
+
+    <div class="mb-3">
+        <label for="{{ form.style.id_for_label }}" class="form-label">
+            {{ form.style.label }}
+        </label>
+        {{ form.style }}
+    </div>
+
+    <div class="mb-3">
+        <label for="{{ form.description.id_for_label }}" class="form-label">
+            {{ form.description.label }}
+        </label>
         {{ form.description }}
     </div>
-    <button type="submit" class="btn btn-primary">Отправить запрос</button>
+
+    <button type="submit" class="btn btn-primary">Отправить</button>
 </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        border-radius: 12px;
+    }
+
+    .form-control, .form-select {
+        border-radius: 8px;
+        padding: 10px 15px;
+        border: 2px solid #e9ecef;
+    }
+
+    .form-control:focus, .form-select:focus {
+        border-color: #86b7fe;
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    }
+
+    .btn-lg {
+        border-radius: 8px;
+        font-weight: 600;
+    }
+</style>
 {% endblock %}

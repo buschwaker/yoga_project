@@ -1,7 +1,9 @@
+from colorama import Style
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserChangeForm
 
+from yoga_app.constants import EXERCISE_COMPLEXITY
 from yoga_app.models import TrainingRequest
 
 
@@ -28,6 +30,45 @@ class CustomUserChangeForm(UserChangeForm):
 
 
 class TrainingRequestForm(forms.ModelForm):
+    complexity = forms.ChoiceField(
+        choices=EXERCISE_COMPLEXITY,
+        widget=forms.Select(attrs={'class': 'form-select'}),
+        label="Уровень сложности"
+    )
+
     class Meta:
         model = TrainingRequest
-        fields = ["duration", "description"]
+        fields = ['duration', 'complexity', 'style', 'description']
+        widgets = {
+            'duration': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'min': 30,
+                'max': 240
+            }),
+            'description': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 4
+            }),
+        }
+
+#
+# class TrainingRequestForm(forms.ModelForm):
+#     class Meta:
+#         model = TrainingRequest
+#         fields = ['duration', 'description']
+#         widgets = {
+#             'duration': forms.NumberInput(attrs={
+#                 'min': 30,
+#                 'max': 240,
+#                 'step': 15,
+#                 'class': 'form-control'
+#             }),
+#             'description': forms.Textarea(attrs={
+#                 'rows': 5,
+#                 'class': 'form-control',
+#                 'placeholder': 'Опишите ваши цели и пожелания...'
+#             }),
+#             'complexity': forms.Select(attrs={'class': 'form-select'}),
+#             'style': forms.Select(attrs={'class': 'form-select'}),
+#         }
+

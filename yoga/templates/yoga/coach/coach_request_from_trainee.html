@@ -1,0 +1,29 @@
+{% extends 'yoga/lk_coach_header.html' %}
+{% load static %}
+{% block coach_content %}
+    <div class="row">
+        <div class="col-md-2">
+            {% if user.avatar %}
+                <img src="{{ request.user.avatar.url }}" alt="Аватар" class="img-fluid mb-3 rounded-circle" style="max-width: 180px; max-height: 180px;">
+            {% else %}
+                <img src="{% static 'img/default_avatar.png' %}" alt="Аватар" class="img-fluid mb-3 rounded-circle" style="max-width: 180px; max-height: 180px;">
+            {% endif %}
+<!--            <button type="button" class="btn btn-primary w-100 mb-3" id="editProfileButton" data-bs-toggle="modal" data-bs-target="#editProfileModal">Редактировать</button>-->
+        <a href="{% url 'yoga:edit_profile' %}" class="btn btn-primary w-100 mb-3" id="editProfileButton">Редактировать</a>
+        </div>
+        <div class="col-md-8 pb-5">
+            <div class="card-body">
+                <h5 class="card-title">Ваша информация</h5>
+                <p class="card-text"><strong>Имя:</strong> {{ user.first_name }}</p>
+                <p class="card-text"><strong>Фамилия:</strong> {{ user.last_name }}</p>
+                <p class="card-text"><strong>Имя пользователя:</strong> {{ user.username }}</p>
+                <p class="card-text"><strong>Пол:</strong> {{ user.gender }}</p>
+                <p class="card-text"><strong>Рост:</strong> {{ user.height }}</p>
+                <p class="card-text"><strong>Вес:</strong> {{ user.weight }}</p>
+                <p class="card-text"><strong>Электронная почта:</strong> {{ user.email }}</p>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

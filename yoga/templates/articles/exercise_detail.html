@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="card border-0 shadow">
+                <div class="card-body p-4">
+                    <div class="mb-4">
+                        {% if exercise.image %}
+                            <img src="{{ exercise.image.url }}" alt="{{ exercise.name }}" 
+                                 class="img-fluid rounded w-100" style="max-height: 400px; object-fit: cover;">
+                        {% endif %}
+                    </div>
+                    
+                    <h1 class="mb-3">{{ exercise.name }}</h1>
+                    
+                    <div class="d-flex align-items-center mb-4">
+                        <span class="badge bg-{% if exercise.complexity == 1 %}success{% elif exercise.complexity == 2 %}warning{% else %}danger{% endif %} me-3">
+                            {% if exercise.complexity == 1 %}Легкий{% elif exercise.complexity == 2 %}Средний{% else %}Сложный{% endif %}
+                        </span>
+                        <span><i class="far fa-clock me-1"></i> {{ exercise.duration }} секунд</span>
+                    </div>
+
+                    <div class="mb-4">
+                        <h4 class="h5">Описание:</h4>
+                        <p class="mb-0">{{ exercise.description }}</p>
+                    </div>
+
+                    {% if exercise.benefits %}
+                    <div class="alert alert-success">
+                        <h4 class="h5"><i class="fas fa-check-circle me-2"></i> Польза:</h4>
+                        <p class="mb-0">{{ exercise.benefits }}</p>
+                    </div>
+                    {% endif %}
+
+                    <div class="mb-4">
+                        <h4 class="h5">Типы упражнения:</h4>
+                        <div class="d-flex flex-wrap gap-2 mb-3">
+                            {% for type in exercise.types.all %}
+                            <span class="badge text-primary border border-primary border-opacity-25">
+                            {{ type.name }}
+                                </span>
+                            {% endfor %}
+                        </div>
+
+                        {% for type in exercise.types.all %}
+                            {% if type.description %}
+                                <div class="mb-3">
+                                    <h5 class="h6 text-primary">{{ type.name }}:</h5>
+                                    <p class="mb-0">{{ type.description }}</p>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+
+                    <a href="{% url 'yoga:articles' %}" class="btn btn-primary mt-3">
+                        <i class="fas fa-arrow-left me-2"></i> Назад к списку
+                    </a>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

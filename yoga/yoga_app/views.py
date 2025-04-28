@@ -16,7 +16,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from yoga_app.constants import BASE
 from yoga_app.models import (CoachingRequest, Exercise, Training,
-                             TrainingRequest, WorkoutStatistic,)
+                             TrainingRequest, WorkoutStatistic, Style, ExerciseType, )
 from yoga_users.constants import COACH, TRAINEE
 
 from .forms import CustomUserChangeForm, TrainingRequestForm
@@ -65,6 +65,19 @@ def get_user_info(request):
         request,
         "yoga/lk_trainee.html",
         context={"active_tab": "show_lk", TRAINEE: True},
+    )
+
+
+@role_required(COACH)
+def get_coach_request_trainee_info(request):
+    trainee = get_object_or_404(
+        request.user.trainees,  # Фильтруем только учеников этого тренера
+        id=trainee_id
+    )
+    return render(
+        request,
+        "yoga/coach/coach_request_from_trainee.html",
+        context={COACH: True, },
     )
 
 
@@ -381,20 +394,36 @@ def workout_end(request):
 
 @role_required(TRAINEE)
 def create_training_request(request):
+    if not request.user.coach:
+        return redirect("yoga:trainee_trainer_choice")
+
     if request.method == "POST":
         form = TrainingRequestForm(request.POST)
         if form.is_valid():
             training_request = form.save(commit=False)
             training_request.trainee = request.user
             training_request.save()
-            return redirect("yoga:main")
+
+            messages.success(request, "Ваш запрос успешно отправлен!")
+            return redirect("yoga:show_training_requests")
+        else:
+            print("Ошибки формы:", form.errors)
+            messages.error(request, "Пожалуйста, исправьте ошибки в форме")
     else:
-        form = TrainingRequestForm()
+        # Инициализация формы с начальными значениями
+        initial_data = {
+            'duration': 60,  # Значение по умолчанию
+            'complexity': 2,  # Средний уровень
+        }
+        form = TrainingRequestForm(initial=initial_data)
 
     return render(
         request,
         "trainings/create_training_request.html",
-        {"form": form, TRAINEE: True},
+        {
+            "form": form,
+            "styles": Style.objects.all()
+        }
     )
 
 
@@ -535,14 +564,34 @@ def show_articles(request):
     is_trainee = request.user.is_authenticated and request.user.role == TRAINEE
 
     query = request.GET.get("q")
+    complexity = request.GET.get("complexity")
+    selected_types = request.GET.getlist("type")  # Получаем список выбранных типов
+
+    exercises = Exercise.objects.all()
+    all_types = ExerciseType.objects.all()  # Получаем все возможные типы
+
     if query:
-        exercises = Exercise.objects.filter(Q(name__icontains=query))
-    else:
-        exercises = Exercise.objects.all()
+        exercises = exercises.filter(Q(name__icontains=query))
+
+    if complexity:
+        exercises = exercises.filter(complexity=complexity)
+
+    if selected_types:
+        # Фильтруем упражнения по выбранным типам
+        exercises = exercises.filter(types__id__in=selected_types).distinct()
+
     context = {
         COACH: is_coach,
         TRAINEE: is_trainee,
         "exercises": exercises,
         "query": query,
+        "selected_complexity": complexity,
+        "all_types": all_types,
+        "selected_types": selected_types,
     }
     return render(request, "articles/all_exercises.html", context)
+
+
+def articles_exercise_detail(request, exercise_id):
+    exercise = get_object_or_404(Exercise, pk=exercise_id)
+    return render(request, 'articles/exercise_detail.html', {'exercise': exercise})

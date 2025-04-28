@@ -5,9 +5,9 @@
 <div class="row">
         <div class="col-md-2">
             {% if request.user.coach.avatar %}
-                <img src="{{ request.user.avatar.url }}" alt="Аватар" class="img-fluid mb-3 rounded-circle" style="max-width: 200px; max-height: 200px; object-fit: cover;">
+                <img src="{{ request.user.coach.avatar.url }}" alt="Аватар" class="img-fluid mb-3 rounded-circle" style="max-width: 180px; max-height: 180px; object-fit: cover;">
             {% else %}
-                <img src="{% static 'img/default_avatar.png' %}" alt="Аватар" class="img-fluid mb-3 rounded-circle" style="max-width: 200px; max-height: 200px; object-fit: cover;">
+                <img src="{% static 'img/default_avatar.png' %}" alt="Аватар" class="img-fluid mb-3 rounded-circle" style="max-width: 180px; max-height: 180px; object-fit: cover;">
             {% endif %}
         </div>
         <div class="col-md-8 pb-5">
@@ -16,10 +16,9 @@
                 {% if request.user.coach %}
                         <p class="card-text"><strong>Имя:</strong> {{ request.user.coach.first_name }}</p>
                         <p class="card-text"><strong>Фамилия:</strong> {{ request.user.coach.last_name }}</p>
-                        <p class="card-text"><strong>Имя пользователя:</strong> {{ request.user.coach.username }}</p>
                 {% else %}
                     <div class="col-md-12 mt-4">
-                        <p>У вас нет тренера.</p>
+                        <p>Выберите тренера из списка ниже.</p>
                     </div>
                 {% endif %}
                 <br>
@@ -55,33 +54,52 @@
             <h5 class="card-title text-center mb-4">Выбрать или изменить тренера</h5>
             <div class="row">
                 {% for coach in coaches %}
-                <div class="col-md-2">
-            {% if coach.avatar %}
-                <img src="{{ coach.avatar.url }}" alt="Аватар" class="img-fluid mb-3 rounded-circle" style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover;">
-                    {% else %}
-                <img src="{% static 'img/default_avatar.png' %}" alt="Аватар" class="img-fluid mb-3 rounded-circle" style="max-width: 200px; max-height: 200px; object-fit: cover;">
-            {% endif %}
-            </div>
-                    <div class="col-md-4 mb-3">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ coach.first_name }} {{ coach.last_name }}</h5>
-                                <p class="card-text"><strong>Электронная почта:</strong> {{ coach.email }}</p>
-                                <p class="card-text"><strong>Образование:</strong> {{ coach.info.education|default:"Не указано" }}</p>
-                                <p class="card-text"><strong>Опыт работы:</strong> {{ coach.info.work_experience|default:"Не указано" }}</p>
-                                <p class="card-text"><strong>О себе:</strong> {{ coach.info.bio|default:"Не указано" }}</p>
+        <div class="col-lg-6 mb-4">
+            <div class="card coach-card h-100">
+                <div class="row no-gutters">
+                    <div class="col-md-4 d-flex align-items-center justify-content-center p-3">
+                        {% if coach.avatar %}
+                            <img src="{{ coach.avatar.url }}" alt="{{ coach.get_full_name }}"
+                                 class="img-fluid rounded-circle coach-avatar">
+                        {% else %}
+                            <img src="{% static 'img/default_avatar.png' %}" alt="{{ coach.get_full_name }}"
+                                 class="img-fluid rounded-circle" style="width: 180px; height: 180px; object-fit: cover;">
+                        {% endif %}
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h2 class="card-title">{{ coach.first_name }} {{ coach.last_name }}</h2>
 
-                                <form method="post">
-                                    {% csrf_token %}
-                                     <input type="hidden" name="coach_id" value="{{ coach.id }}">
-                                    <button type="submit" class="btn btn-primary">Выбрать</button>
-                                 </form>
+                            {% if coach.info %}
+                            <div class="coach-details mt-4">
+                                <div class="detail-item mb-3">
+                                    <h4 class="detail-label">Образование</h4>
+                                    <p class="detail-content">{{ coach.info.education|default:"Не указано" }}</p>
+                                </div>
+
+                                <div class="detail-item mb-3">
+                                    <h4 class="detail-label">Опыт работы</h4>
+                                    <p class="detail-content">{{ coach.info.work_experience|default:"Не указано" }}</p>
+                                </div>
+
+                                <div class="detail-item mb-3">
+                                    <h4 class="detail-label">О себе</h4>
+                                    <p class="detail-content">{{ coach.info.bio|default:"Не указано" }}</p>
+                                </div>
                             </div>
+                            {% endif %}
                         </div>
                     </div>
-                {% empty %}
-                    <p>Пока нет тренеров.</p>
-                {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info">
+                Пока нет доступных тренеров.
+            </div>
+        </div>
+        {% endfor %}
             </div>
         </div>
 

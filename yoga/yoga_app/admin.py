@@ -20,3 +20,7 @@ admin.site.register(models.ProgramRequest)
 admin.site.register(models.ProgramItem)
 
 admin.site.register(models.Program)
+
+admin.site.register(models.Style)
+
+admin.site.register(models.ExerciseType)

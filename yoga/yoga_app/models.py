@@ -1,8 +1,10 @@
+from math import ceil
+
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.db import models
 
-from yoga_app.constants import BASE, DAYS_OF_WEEK, PERSONAL, TRAININGS_TYPE
+from yoga_app.constants import BASE, DAYS_OF_WEEK, PERSONAL, TRAININGS_TYPE, EXERCISE_COMPLEXITY
 from yoga_users.constants import COACH, TRAINEE
 
 
@@ -16,12 +18,28 @@ def validate_range(value):
         )
 
 
+class ExerciseType(models.Model):
+    name = models.CharField(max_length=50, unique=True, verbose_name="Название типа")
+    description = models.TextField(null=True, blank=True, verbose_name="Описание")
+
+    def __str__(self):
+        return self.name
+
+
 class Exercise(models.Model):
     name = models.CharField(max_length=50, unique=True)
     description = models.TextField(null=True, blank=True)
     duration = models.IntegerField(validators=[validate_range])
     image = models.ImageField(
         null=True, blank=True, upload_to="images/exercises/"
+    )
+    complexity = models.SmallIntegerField(
+        null=False, blank=False, choices=EXERCISE_COMPLEXITY
+    )
+    types = models.ManyToManyField(
+        ExerciseType,
+        related_name='exercises',
+        verbose_name="Типы асан"
     )
 
 
@@ -30,6 +48,14 @@ class Exercise(models.Model):
 #         Exercise, on_delete=models.CASCADE
 #     )
 #     duration = models.IntegerField(validators=[validate_range])
+
+
+class Style(models.Model):
+    name = models.CharField(max_length=50, unique=True, verbose_name="Название стиля")
+    description = models.TextField(max_length=500, blank=True, verbose_name="Описание")
+
+    def __str__(self):
+        return self.name
 
 
 class Training(models.Model):
@@ -47,6 +73,30 @@ class Training(models.Model):
     request = models.OneToOneField(
         "TrainingRequest", null=True, on_delete=models.SET_NULL
     )
+    complexity = models.SmallIntegerField(
+        null=True, blank=True, choices=EXERCISE_COMPLEXITY
+    )
+    style = models.ForeignKey(
+        Style,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="trainings"
+    )
+
+    def get_complexity_display(self):
+        if self.complexity == 1:
+            return "Начинающий"
+        elif self.complexity == 2:
+            return "Средний уровень"
+        elif self.complexity == 3:
+            return "Продвинутый"
+        return "Не указана"
+
+    def get_total_duration(self):
+        total = sum(ex.duration for ex in self.exercises.all())
+        minutes = total // 60
+        return f"{minutes} мин"
 
     def clean(self):
         if self.request:
@@ -70,15 +120,26 @@ class TrainingRequest(models.Model):
         related_name="training_requests",
         related_query_name="training_request",
     )
-    duration = models.IntegerField(default=60)
+    duration = models.IntegerField(default=30)
     description = models.TextField(max_length=255, null=True, blank=True)
     accepted = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     expired = models.BooleanField(default=False)
+    complexity = models.SmallIntegerField(
+        choices=EXERCISE_COMPLEXITY,
+        default=1
+    )
+    style = models.ForeignKey(
+        Style,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="training_requests"
+    )
 
-    def clean(self):
-        if self.trainee.role == COACH:
-            raise ValidationError("Coach can't request training!")
+    # def clean(self):
+    #     if self.trainee.role == COACH:
+    #         raise ValidationError("Coach can't request training!") - из-за того, что в форме эта валидация срабатывает до установки trainee, запрос на тренировку не отправляется
 
 
 class CoachingRequest(models.Model):

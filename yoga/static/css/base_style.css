@@ -159,3 +159,171 @@
     margin: auto;
 }
 
+.workout-stats-card {
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+  border-radius: 12px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.stat-item {
+  text-align: center;
+  transition: transform 0.3s;
+}
+
+.stat-item:hover {
+  transform: translateY(-5px);
+}
+
+.stat-icon {
+  margin-bottom: 10px;
+}
+
+.stat-value {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #2c3e50;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: #7f8c8d;
+}
+
+.success-message {
+  background: rgba(40, 167, 69, 0.1);
+  border-left: 4px solid #28a745;
+}
+
+.bg-success-light {
+  background-color: rgba(40, 167, 69, 0.1);
+}
+
+.coach-avatar {
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+    border: 5px solid white;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    margin-top: -40px; /* Поднимаем аватар немного над карточкой */
+    margin-bottom: 20px;
+}
+
+.coach-card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    overflow: visible; /* Важно для корректного отображения выступающего аватара */
+    position: relative;
+    padding-top: 40px; /* Компенсируем margin-top аватара */
+}
+
+
+.coach-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.detail-label {
+    color: #4a6baf;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 0.3rem;
+}
+
+.detail-content {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #555;
+}
+
+.card-title {
+    color: #333;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.about-app-section {
+  border-radius: 15px;
+}
+
+.about-text p {
+  margin-bottom: 1rem;
+  line-height: 1.7;
+}
+
+.features-section h4 {
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+}
+
+.features-section li {
+  padding-left: 0;
+  margin-bottom: 0.5rem;
+  position: relative;
+  line-height: 1.6;
+}
+
+.exercise-card {
+        transition: all 0.3s ease;
+        border-radius: 12px;
+    }
+    .exercise-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    .transition-all {
+        transition: all 0.3s ease;
+    }
+    .empty-state {
+        max-width: 400px;
+        margin: 0 auto;
+    }
+
+    .exercise-types {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    max-width: 60%;
+}
+
+.exercise-types .badge {
+    font-size: 0.7rem;
+    padding: 0.35em 0.65em;
+    margin-bottom: 0.3em;
+    white-space: nowrap;
+}
+
+.form-check-input:checked {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.card-header {
+    padding: 0.75rem 1.25rem;
+}
+
+.form-check-label {
+    cursor: pointer;
+    user-select: none;
+}
+
+select[multiple] {
+        min-height: 120px;
+    }
+    .card-header {
+        font-weight: 500;
+    }
+    .form-select {
+        border-radius: 0.25rem;
+    }
+
+

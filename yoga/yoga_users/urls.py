@@ -1,8 +1,8 @@
 from django.contrib.auth import views
 from django.urls import path
 
-from yoga_users.views import CreateUser, ThankYouView
-
+from yoga_users.views import CreateUser, ThankYouView, coach_profile
+from .views import CoachesListView
 
 app_name = "yoga_users"
 
@@ -19,6 +19,9 @@ urlpatterns = [
         name="logout",
     ),
     path("thankyou/", ThankYouView.as_view(), name="thankyou"),
+    path('coaches/', CoachesListView.as_view(), name='coaches_list'),
+
+    path('auth/coaches/<int:coach_id>/', coach_profile, name='coach_profile'),
     #
     # # Смена пароля
     # path('password_change/', views.PasswordChangeView.as_view(), name='password_change'),

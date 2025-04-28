@@ -1,30 +1,79 @@
+{% load static %}
 <div class="container">
-    <h2 class="text-center mb-4">Ваши личные тренировки</h2>
+    <h2 class="text-center mb-4" style="font-family: 'Montserrat', sans-serif; font-weight: 700; color: #2c3e50; text-transform: uppercase; letter-spacing: 1.5px; position: relative; padding-bottom: 15px; margin-top: 30px;">
+        Ваши личные тренировки
+        <span style="display: block; width: 80px; height: 4px; background: linear-gradient(90deg, #3498db, #9b59b6); margin: 10px auto 0; border-radius: 2px;"></span>
+    </h2>
+
     <div class="d-flex justify-content-center mb-4">
         <div>
-            <a href="{% url 'yoga:training_request' %}" class="btn btn-primary mr-2">Запросить личную тренировку</a>
-            <a href="{% url 'yoga:show_training_requests' %}" class="btn btn-secondary">Посмотреть запросы</a>
+            <a href="{% url 'yoga:training_request' %}" class="btn btn-primary mr-2">
+                <i class="fas fa-plus-circle me-1"></i> Запросить личную тренировку
+            </a>
+            <a href="{% url 'yoga:show_training_requests' %}" class="btn btn-outline-secondary">
+                <i class="fas fa-list me-1"></i> Мои запросы
+            </a>
         </div>
     </div>
 
     {% if not personal_trainings %}
-        <h2 class="text-center mb-4">У вас нет персональных тренировок</h2>
+        <div class="text-center py-5">
+            <img src="{% static 'img/no_image.png' %}" alt="No trainings" class="img-fluid mb-4" style="max-height: 200px;">
+            <h3 class="h4 text-muted">У вас нет персональных тренировок</h3>
+            <p class="text-muted">Запросите индивидуальную программу у вашего тренера</p>
+        </div>
     {% endif %}
+
     <div class="row">
-    {% for personal_training in personal_trainings %}
+        {% for personal_training in personal_trainings %}
         <div class="col-md-4 mb-4">
-            <div class="card service-card">
+            <div class="card service-card h-100 shadow-sm">
                 {% if personal_training.image %}
-                    <img src="{{ personal_training.image.url }}" class="card-img-top" alt="{{ personal_training.name }}">
+                    <img src="{{ personal_training.image.url }}" class="card-img-top" alt="{{ personal_training.name }}" style="height: 200px; object-fit: cover;">
+                {% else %}
+                    <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                        <i class="fas fa-image fa-3x text-muted"></i>
+                    </div>
                 {% endif %}
+
                 <div class="card-body">
                     <h5 class="card-title">{{ personal_training.name }}</h5>
-                    <p class="card-text">{{ personal_training.description }}</p>
-                    <a href="{% url 'yoga:show_workout' training_id=personal_training.id %}" class="btn btn-primary">Пройти тренировку</a>
+
+                    <!-- Стиль йоги и сложность -->
+{% if personal_training.style or personal_training.complexity %}
+<div class="d-flex align-items-center flex-wrap gap-2 mb-3">
+    {% if personal_training.style %}
+    <span class="badge bg-light text-dark d-flex align-items-center">
+        <i class="fas fa-{{ personal_training.style.icon }} text-primary me-1"></i>
+        <span class="text-primary">{{ personal_training.style.name }}</span>
+    </span>
+    {% endif %}
+
+    {% if personal_training.complexity %}
+    <span class="badge bg-light text-dark d-flex align-items-center">
+        <span class="text-primary">{{ personal_training.get_complexity_display }}</span>
+    </span>
+    {% endif %}
+
+    {% if personal_training.exercises.exists %}
+    <span class="badge bg-light text-dark d-flex align-items-center">
+        <i class="fas fa-clock text-primary me-1"></i>
+        <span class="text-primary">{{ personal_training.get_total_duration }}</span>
+    </span>
+    {% endif %}
+</div>
+{% endif %}
+
+                    <p class="card-text">{{ personal_training.description|truncatechars:120 }}</p>
+                </div>
+
+                <div class="card-footer bg-white border-0">
+                    <a href="{% url 'yoga:show_workout' training_id=personal_training.id %}" class="btn btn-primary w-100">
+                        <i class="fas fa-play-circle me-1"></i> Пройти тренировку
+                    </a>
                 </div>
             </div>
         </div>
-    {% endfor %}
+        {% endfor %}
     </div>
 </div>
-

@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="text-center mb-5">Наши тренеры</h1>
+
+    <div class="row">
+        {% for coach in coaches %}
+        <div class="col-lg-6 mb-4">
+            <div class="card coach-card h-100">
+                <div class="row no-gutters">
+                    <div class="col-md-4 d-flex align-items-center justify-content-center p-3">
+                        {% if coach.avatar %}
+                                <img src="{{ coach.avatar.url }}" alt="{{ coach.get_full_name }}"
+                                     class="img-fluid rounded-circle coach-avatar">
+                            {% else %}
+                                <img src="{% static 'img/default_avatar.png' %}" alt="{{ coach.get_full_name }}"
+                                     class="img-fluid rounded-circle" style="width: 180px; height: 180px; object-fit: cover;">
+                            {% endif %}
+                        </a>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h2 class="card-title">
+                                <a href="{% url 'yoga_users:coach_profile' coach.id %}" class="text-decoration-none">
+                                    {{ coach.first_name }} {{ coach.last_name }}
+                                </a>
+                            </h2>
+
+                            <div class="d-flex justify-content-start mb-3">
+                                <a href="{% url 'yoga_users:coach_profile' coach.id %}" class="btn btn-outline-primary btn-sm">
+                                    <i class="fas fa-user me-1"></i> Профиль тренера
+                                </a>
+                            </div>
+
+                            {% if coach.info %}
+                            <div class="coach-details mt-4">
+                                <div class="detail-item mb-3">
+                                    <h4 class="detail-label">Образование</h4>
+                                    <p class="detail-content">{{ coach.info.education|default:"Не указано" }}</p>
+                                </div>
+
+                                <div class="detail-item mb-3">
+                                    <h4 class="detail-label">Опыт работы</h4>
+                                    <p class="detail-content">{{ coach.info.work_experience|default:"Не указано" }}</p>
+                                </div>
+
+                                <div class="detail-item mb-3">
+                                    <h4 class="detail-label">О себе</h4>
+                                    <p class="detail-content">{{ coach.info.bio|default:"Не указано" }}</p>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info">
+                Пока нет доступных тренеров.
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% if is_paginated %}
+    <nav aria-label="Page navigation" class="mt-5">
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1" aria-label="First">
+                        <span aria-hidden="true">&laquo;&laquo;</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+            {% endif %}
+
+            {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                    <li class="page-item active"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                    <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Last">
+                        <span aria-hidden="true">&raquo;&raquo;</span>
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+</div>
+{% endblock %}

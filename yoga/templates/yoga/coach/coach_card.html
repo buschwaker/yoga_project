@@ -1,10 +1,11 @@
-{% extends 'yoga/coach/lk_coach_header.html' %}
+{% extends 'base.html' %}
 {% load static %}
-{% block coach_content %}
+
+{% block content %}
 
 <div class="container py-4">
     <h2 class="text-center mb-4" style="font-family: 'Montserrat', sans-serif; font-weight: 700; color: #2c3e50; text-transform: uppercase; letter-spacing: 1.5px; position: relative; padding-bottom: 15px;">
-        Личный кабинет тренера
+        Страница тренера
         <span style="display: block; width: 80px; height: 4px; background: linear-gradient(90deg, #3498db, #9b59b6); margin: 10px auto 0; border-radius: 2px;"></span>
     </h2>
 
@@ -12,8 +13,8 @@
         <div class="row g-0">
             <div class="col-md-3 col-lg-2 p-0 d-flex flex-column" style="background-color: #f8f9fa;">
                 <div class="d-flex flex-column align-items-center p-4 h-100">
-                    {% if request.user.avatar %}
-                        <img src="{{ request.user.avatar.url }}" alt="Аватар"
+                    {% if coach.avatar %}
+                        <img src="{{ coach.avatar.url }}" alt="Аватар"
                              class="img-fluid mb-4 rounded-circle shadow"
                              style="width: 150px; height: 150px; object-fit: cover;">
                     {% else %}
@@ -21,10 +22,6 @@
                              class="img-fluid mb-4 rounded-circle shadow"
                              style="width: 150px; height: 150px; object-fit: cover;">
                     {% endif %}
-                    <a href="{% url 'yoga:edit_profile' %}" class="btn btn-primary w-100 mt-auto"
-                       style="background: linear-gradient(90deg, #3498db, #9b59b6); border: none; border-radius: 50px; font-weight: 600;">
-                        <i class="fas fa-edit me-2"></i> Редактировать
-                    </a>
                 </div>
             </div>
 
@@ -40,22 +37,22 @@
 
                                 <div class="detail-item mb-3">
                                     <h4 class="detail-label">Имя</h4>
-                                    <p class="detail-content">{{ request.user.first_name|default:"Не указано" }}</p>
+                                    <p class="detail-content">{{ coach.first_name|default:"Не указано" }}</p>
                                 </div>
 
                                 <div class="detail-item mb-3">
                                     <h4 class="detail-label">Фамилия</h4>
-                                    <p class="detail-content">{{ request.user.last_name|default:"Не указано" }}</p>
+                                    <p class="detail-content">{{ coach.last_name|default:"Не указано" }}</p>
                                 </div>
 
                                 <div class="detail-item mb-3">
                                     <h4 class="detail-label">Имя пользователя</h4>
-                                    <p class="detail-content">@{{ request.user.username }}</p>
+                                    <p class="detail-content">@{{ coach.username }}</p>
                                 </div>
 
                                 <div class="detail-item mb-3">
                                     <h4 class="detail-label">Пол</h4>
-                                    <p class="detail-content">{{ request.user.get_gender_display|default:"Не указано" }}</p>
+                                    <p class="detail-content">{{ coach.get_gender_display|default:"Не указано" }}</p>
                                 </div>
                             </div>
                         </div>
@@ -64,21 +61,21 @@
                             <div class="detail-section mb-4">
                                 <div class="detail-item mb-3">
                                     <h4 class="detail-label">Рост</h4>
-                                    <p class="detail-content">{{ request.user.height|default:"Не указано" }} см</p>
+                                    <p class="detail-content">{{ coach.height|default:"Не указано" }} см</p>
                                 </div>
 
                                 <div class="detail-item mb-3">
                                     <h4 class="detail-label">Вес</h4>
-                                    <p class="detail-content">{{ request.user.weight|default:"Не указано" }} кг</p>
+                                    <p class="detail-content">{{ coach.weight|default:"Не указано" }} кг</p>
                                 </div>
 
                                 <div class="detail-item mb-3">
                                     <h4 class="detail-label">Электронная почта</h4>
-                                    <p class="detail-content">{{ request.user.email }}</p>
+                                    <p class="detail-content">{{ coach.email }}</p>
                                 </div>
                             </div>
 
-                            {% if request.user.info %}
+                            {% if coach.info %}
                             <div class="detail-section">
                                 <h3 class="detail-header mb-4">
                                     <i class="fas fa-info-circle me-2" style="color: #9b59b6;"></i>
@@ -87,17 +84,17 @@
 
                                 <div class="detail-item mb-3">
                                     <h4 class="detail-label">Образование</h4>
-                                    <p class="detail-content">{{ request.user.info.education|default:"Не указано" }}</p>
+                                    <p class="detail-content">{{ coach.info.education|default:"Не указано" }}</p>
                                 </div>
 
                                 <div class="detail-item mb-3">
                                     <h4 class="detail-label">Опыт работы</h4>
-                                    <p class="detail-content">{{ request.user.info.work_experience|default:"Не указано" }}</p>
+                                    <p class="detail-content">{{ coach.info.work_experience|default:"Не указано" }}</p>
                                 </div>
 
                                 <div class="detail-item">
                                     <h4 class="detail-label">О себе</h4>
-                                    <p class="detail-content">{{ request.user.info.bio|default:"Не указано" }}</p>
+                                    <p class="detail-content">{{ coach.info.bio|default:"Не указано" }}</p>
                                 </div>
                             </div>
                             {% endif %}
@@ -157,5 +154,4 @@
         box-shadow: 0 10px 25px rgba(0,0,0,0.1);
     }
 </style>
-
-{% endblock coach_content %}
+{% endblock %}
