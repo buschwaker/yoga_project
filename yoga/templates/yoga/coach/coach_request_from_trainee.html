@@ -1,29 +1,149 @@
-{% extends 'yoga/lk_coach_header.html' %}
+{% extends 'base.html' %}
 {% load static %}
-{% block coach_content %}
-    <div class="row">
-        <div class="col-md-2">
-            {% if user.avatar %}
-                <img src="{{ request.user.avatar.url }}" alt="Аватар" class="img-fluid mb-3 rounded-circle" style="max-width: 180px; max-height: 180px;">
-            {% else %}
-                <img src="{% static 'img/default_avatar.png' %}" alt="Аватар" class="img-fluid mb-3 rounded-circle" style="max-width: 180px; max-height: 180px;">
-            {% endif %}
-<!--            <button type="button" class="btn btn-primary w-100 mb-3" id="editProfileButton" data-bs-toggle="modal" data-bs-target="#editProfileModal">Редактировать</button>-->
-        <a href="{% url 'yoga:edit_profile' %}" class="btn btn-primary w-100 mb-3" id="editProfileButton">Редактировать</a>
-        </div>
-        <div class="col-md-8 pb-5">
-            <div class="card-body">
-                <h5 class="card-title">Ваша информация</h5>
-                <p class="card-text"><strong>Имя:</strong> {{ user.first_name }}</p>
-                <p class="card-text"><strong>Фамилия:</strong> {{ user.last_name }}</p>
-                <p class="card-text"><strong>Имя пользователя:</strong> {{ user.username }}</p>
-                <p class="card-text"><strong>Пол:</strong> {{ user.gender }}</p>
-                <p class="card-text"><strong>Рост:</strong> {{ user.height }}</p>
-                <p class="card-text"><strong>Вес:</strong> {{ user.weight }}</p>
-                <p class="card-text"><strong>Электронная почта:</strong> {{ user.email }}</p>
+
+{% block content %}
+
+<div class="container py-4">
+    <h2 class="text-center mb-4" style="font-family: 'Montserrat', sans-serif; font-weight: 700; color: #2c3e50; text-transform: uppercase; letter-spacing: 1.5px; position: relative; padding-bottom: 15px;">
+        Страница ученика
+        <span style="display: block; width: 80px; height: 4px; background: linear-gradient(90deg, #3498db, #9b59b6); margin: 10px auto 0; border-radius: 2px;"></span>
+    </h2>
+
+    <div class="card shadow-sm border-0 overflow-hidden" style="border-radius: 15px;">
+        <div class="row g-0">
+            <div class="col-md-3 col-lg-2 p-0 d-flex flex-column" style="background-color: #f8f9fa;">
+                <div class="d-flex flex-column align-items-center p-4 h-100">
+                    {% if trainee.avatar %}
+                        <img src="{{ trainee.avatar.url }}" alt="Аватар"
+                             class="img-fluid mb-4 rounded-circle shadow"
+                             style="width: 150px; height: 150px; object-fit: cover;">
+                    {% else %}
+                        <img src="{% static 'img/default_avatar.png' %}" alt="Аватар"
+                             class="img-fluid mb-4 rounded-circle shadow"
+                             style="width: 150px; height: 150px; object-fit: cover;">
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="col-md-9 col-lg-10">
+                <div class="card-body p-4">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="detail-section mb-4">
+                                <h3 class="detail-header mb-4">
+                                    <i class="fas fa-user-circle me-2" style="color: #3498db;"></i>
+                                    Личные данные
+                                </h3>
+
+                                <div class="detail-item mb-3">
+                                    <h4 class="detail-label">Имя</h4>
+                                    <p class="detail-content">{{ trainee.first_name|default:"-" }}</p>
+                                </div>
+
+                                <div class="detail-item mb-3">
+                                    <h4 class="detail-label">Фамилия</h4>
+                                    <p class="detail-content">{{ trainee.last_name|default:"-" }}</p>
+                                </div>
+
+                                <div class="detail-item mb-3">
+                                    <h4 class="detail-label">Имя пользователя</h4>
+                                    <p class="detail-content">@{{ trainee.username }}</p>
+                                </div>
+
+                                <div class="detail-item mb-3">
+                                    <h4 class="detail-label">Пол</h4>
+                                    <p class="detail-content">{{ trainee.get_gender_display|default:"-" }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="detail-section mb-4">
+                                <h3 class="detail-header mb-4">
+                                    <i class="fas fa-chart-line me-2" style="color: #9b59b6;"></i>
+                                    Физические параметры
+                                </h3>
+
+                                <div class="detail-item mb-3">
+                                    <h4 class="detail-label">Рост</h4>
+                                    <p class="detail-content">{{ trainee.height|default:"-" }} см</p>
+                                </div>
+
+                                <div class="detail-item mb-3">
+                                    <h4 class="detail-label">Вес</h4>
+                                    <p class="detail-content">{{ trainee.weight|default:"-" }} кг</p>
+                                </div>
+
+                                <div class="detail-item mb-3">
+                                    <h4 class="detail-label">Электронная почта</h4>
+                                    <p class="detail-content">{{ trainee.email }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+</div>
 
+<style>
+    .detail-header {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 600;
+        color: #2c3e50;
+        font-size: 1.25rem;
+        border-bottom: 2px solid #f0f0f0;
+        padding-bottom: 0.5rem;
+    }
 
+    .detail-label {
+        font-weight: 600;
+        color: #7f8c8d;
+        font-size: 0.9rem;
+        margin-bottom: 0.3rem;
+    }
+
+    .detail-content {
+        color: #34495e;
+        font-size: 1rem;
+        line-height: 1.5;
+    }
+
+    .detail-item {
+        padding-left: 1.5rem;
+        position: relative;
+    }
+
+    .detail-item:before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0.5rem;
+        width: 8px;
+        height: 8px;
+        background: #3498db;
+        border-radius: 50%;
+    }
+
+    .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+
+    .btn-primary {
+        background: linear-gradient(90deg, #3498db, #9b59b6);
+        border: none;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+</style>
 {% endblock %}

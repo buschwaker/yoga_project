@@ -55,7 +55,7 @@ urlpatterns = [
         name="coach_show_training_requests",
     ),
     path("coach_lk/requests/", coach_requests, name="coach_requests"),
-    path('coach_lk/requests/trainee', get_coach_request_trainee_info, name='get_coach_request_trainee_info'),
+    path('coach_lk/requests/trainee/<int:trainee_id>/', get_coach_request_trainee_info, name='get_coach_request_trainee_info'),
     path(
         "coach_requests/accept/<int:request_id>/",
         accept_coaching_request,

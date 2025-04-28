@@ -69,15 +69,15 @@ def get_user_info(request):
 
 
 @role_required(COACH)
-def get_coach_request_trainee_info(request):
+def get_coach_request_trainee_info(request, trainee_id):
     trainee = get_object_or_404(
-        request.user.trainees,  # Фильтруем только учеников этого тренера
+        User,
         id=trainee_id
     )
     return render(
         request,
         "yoga/coach/coach_request_from_trainee.html",
-        context={COACH: True, },
+        context={COACH: True, 'trainee': trainee},
     )
 
 
@@ -218,7 +218,6 @@ def trainee_stats(request, trainee_id):
         "workout_statistics": workout_statistics,
         "workout_days": workout_days,
         "trainee": trainee,
-        TRAINEE: is_trainee,
         COACH: is_coach,
     }
     if trainee_id:
