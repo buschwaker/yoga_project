@@ -50,25 +50,3 @@ class TrainingRequestForm(forms.ModelForm):
                 'rows': 4
             }),
         }
-
-#
-# class TrainingRequestForm(forms.ModelForm):
-#     class Meta:
-#         model = TrainingRequest
-#         fields = ['duration', 'description']
-#         widgets = {
-#             'duration': forms.NumberInput(attrs={
-#                 'min': 30,
-#                 'max': 240,
-#                 'step': 15,
-#                 'class': 'form-control'
-#             }),
-#             'description': forms.Textarea(attrs={
-#                 'rows': 5,
-#                 'class': 'form-control',
-#                 'placeholder': 'Опишите ваши цели и пожелания...'
-#             }),
-#             'complexity': forms.Select(attrs={'class': 'form-select'}),
-#             'style': forms.Select(attrs={'class': 'form-select'}),
-#         }
-

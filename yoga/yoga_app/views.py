@@ -199,7 +199,10 @@ def edit_profile(request):
 
 @role_required(TRAINEE)
 def show_workout(request, training_id):
-    training = get_object_or_404(Training, pk=training_id)
+    training = get_object_or_404(
+        Training.objects.prefetch_related('exercises'),
+        pk=training_id
+    )
     total_duration_seconds = sum(
         exercise.duration for exercise in training.exercises.all()
     )
