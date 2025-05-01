@@ -54,10 +54,10 @@
             <h5 class="card-title text-center mb-4">Выбрать или изменить тренера</h5>
             <div class="row">
                 {% for coach in coaches %}
-        <div class="col-lg-6 mb-4">
-            <div class="card coach-card h-100">
-                <div class="row no-gutters">
-                    <div class="col-md-4 d-flex align-items-center justify-content-center p-3">
+            <div class="col-lg-6 mb-4">
+                <div class="card coach-card h-100">
+                    <div class="row no-gutters">
+                        <div class="col-md-4 d-flex align-items-center justify-content-center p-3">
                         {% if coach.avatar %}
                             <img src="{{ coach.avatar.url }}" alt="{{ coach.get_full_name }}"
                                  class="img-fluid rounded-circle coach-avatar">
@@ -65,7 +65,7 @@
                             <img src="{% static 'img/default_avatar.png' %}" alt="{{ coach.get_full_name }}"
                                  class="img-fluid rounded-circle" style="width: 180px; height: 180px; object-fit: cover;">
                         {% endif %}
-                    </div>
+                        </div>
                     <div class="col-md-8">
                         <div class="card-body">
                             <h2 class="card-title">{{ coach.first_name }} {{ coach.last_name }}</h2>
@@ -89,7 +89,17 @@
                             </div>
                             {% endif %}
                         </div>
-                    </div>
+
+                        <div class="mt-auto">
+                                <form method="post" class="w-100">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="coach_id" value="{{ coach.id }}">
+                                    <button type="submit" class="btn btn-primary btn-block btn-lg rounded-pill py-2">
+                                        <i class="fas fa-check-circle mr-2"></i>Выбрать тренера
+                                    </button>
+                                </form>
+                        </div>
+                          </div>
                 </div>
             </div>
         </div>

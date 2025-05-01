@@ -135,58 +135,13 @@ def trainee_choose_coach(request):
     )
 
 
-@role_required(TRAINEE)
-def trainee_statistics(request):
-    user = request.user
-    workout_statistics = WorkoutStatistic.objects.filter(user=user).order_by(
-        "-start_time"
-    )
-    workout_dates = (
-        workout_statistics.annotate(date=Cast("start_time", DateField()))
-        .values("date")
-        .distinct()
-    )
-    workout_days = [
-        workout["date"].strftime("%Y-%m-%d") for workout in workout_dates
-    ]
-
-    print(workout_days)
-
-    paginator = Paginator(workout_statistics, 5)
-    page_number = request.GET.get("page")
-    try:
-        page_obj = paginator.page(page_number)
-    except PageNotAnInteger:
-        page_obj = paginator.page(
-            1
-        )  # If page_number is not an integer, deliver first page.
-    except EmptyPage:
-        page_obj = paginator.page(
-            paginator.num_pages
-        )  # If page_number is out of range, deliver last page.
-    context = {
-        "page_obj": page_obj,
-        "workout_statistics": workout_statistics,
-        "workout_days": workout_days,
-        TRAINEE: True,
-    }
-    return render(request, "yoga/lk_trainee_statistics.html", context)
-
-
 @login_required()
 def trainee_stats(request, trainee_id):
-    if (
-        trainee_id
-    ):  # Если id ученика передан, значит тренер смотрит статистику ученика
-        if not request.user.role == COACH:
-            raise Http404
-        trainee = get_object_or_404(User, pk=trainee_id)
-        is_coach = True
-        is_trainee = False
-    else:  # Если ID ученика не передан, значит ученик смотрит свою статистику
-        trainee = request.user
-        is_coach = False
-        is_trainee = True
+    trainee = get_object_or_404(User, pk=trainee_id)
+    if request.user.role == TRAINEE:
+        context = {TRAINEE: True}
+    else:
+        context = {COACH: True}
 
     workout_statistics = WorkoutStatistic.objects.filter(
         user=trainee
@@ -213,13 +168,12 @@ def trainee_stats(request, trainee_id):
             paginator.num_pages
         )  # If page_number is out of range, deliver last page.
 
-    context = {
+    context.update({
         "page_obj": page_obj,
         "workout_statistics": workout_statistics,
         "workout_days": workout_days,
         "trainee": trainee,
-        COACH: is_coach,
-    }
+    })
     if trainee_id:
         return render(request, "yoga/coach/trainee_statistics.html", context)
     else:

@@ -11,7 +11,7 @@ from yoga_app.views import (accept_coaching_request, coach_requests,
                             get_user_info, index, next_exercise_view,
                             show_articles, show_training_requests,
                             show_workout, start_workout, trainee_choose_coach,
-                            trainee_statistics, trainee_stats, workout_end, articles_exercise_detail,
+                            trainee_stats, workout_end, articles_exercise_detail,
                             get_coach_request_trainee_info, )
 
 from . import views
@@ -32,7 +32,7 @@ urlpatterns = [
         views.delete_coaching_request,
         name="delete_coaching_request",
     ),
-    path("lk_trainee/stats/", trainee_statistics, name="trainee_statistics"),
+    path("lk_trainee/stats/<int:trainee_id>/", trainee_stats, name="trainee_statistics"),
     path("edit_profile/", edit_profile, name="edit_profile"),
     path(
         "password_change/",
